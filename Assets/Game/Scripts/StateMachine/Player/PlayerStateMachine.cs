@@ -28,6 +28,7 @@ public class PlayerStateMachine : StateMachine
 
     public override void OnStartClient()
     {
+        base.OnStartClient();
         if (IsOwner)
         {
             CinemachineVirtualCamera virtualCamera =
