@@ -31,6 +31,7 @@ public class PlayerMovementState : PlayerBaseState
 
     public override void Tick(float deltaTime)
     {
+        if (!stateMachine.isOwner) return;
         Vector3 movement = CalculateMovement();
         float movementSpeed =
             stateMachine.InputReader.isRunning

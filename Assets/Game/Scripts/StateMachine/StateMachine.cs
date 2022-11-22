@@ -1,6 +1,7 @@
+using FishNet.Object;
 using UnityEngine;
 
-public abstract class StateMachine : MonoBehaviour
+public abstract class StateMachine : NetworkBehaviour
 {
     private State _currentState;
 

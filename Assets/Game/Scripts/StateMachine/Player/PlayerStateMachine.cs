@@ -26,11 +26,18 @@ public class PlayerStateMachine : StateMachine
 
     public Transform MainCameraTransform { get; private set; }
 
-    private void Start()
+    public bool isOwner { get; private set; }
+
+    public override void OnStartClient()
     {
-        CinemachineVirtualCamera virtualCamera =
-            FindObjectOfType<CinemachineVirtualCamera>();
-        virtualCamera.Follow = transform;
+        if (IsOwner)
+        {
+            isOwner = true;
+            CinemachineVirtualCamera virtualCamera =
+                FindObjectOfType<CinemachineVirtualCamera>();
+            virtualCamera.Follow = transform;
+        }
+
         SwitchState(new PlayerMovementState(this));
     }
 }
