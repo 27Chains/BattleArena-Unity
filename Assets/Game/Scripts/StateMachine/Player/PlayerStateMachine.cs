@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class PlayerStateMachine : StateMachine
@@ -29,7 +28,9 @@ public class PlayerStateMachine : StateMachine
 
     private void Start()
     {
-        MainCameraTransform = Camera.main.transform;
+        CinemachineVirtualCamera virtualCamera =
+            FindObjectOfType<CinemachineVirtualCamera>();
+        virtualCamera.Follow = transform;
         SwitchState(new PlayerMovementState(this));
     }
 }

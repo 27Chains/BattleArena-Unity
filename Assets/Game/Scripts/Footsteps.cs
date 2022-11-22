@@ -16,7 +16,6 @@ public class Footsteps : MonoBehaviour
 
     public void FootR()
     {
-        Debug.Log("FootR");
         if (stateMachine.InputReader.isRunning)
         {
             audioSource
@@ -33,7 +32,6 @@ public class Footsteps : MonoBehaviour
 
     public void FootL()
     {
-        Debug.Log("FootL");
         if (stateMachine.InputReader.isRunning)
         {
             audioSource
