@@ -1,4 +1,5 @@
 using Cinemachine;
+using FishNet.Object.Prediction;
 using UnityEngine;
 
 public class PlayerStateMachine : StateMachine
@@ -35,7 +36,10 @@ public class PlayerStateMachine : StateMachine
                 FindObjectOfType<CinemachineVirtualCamera>();
             virtualCamera.Follow = transform.GetChild(0).transform;
         }
+    }
 
+    private void Start()
+    {
         SwitchState(new PlayerMovementState(this));
     }
 }
