@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using FishNet;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +6,9 @@ public class NetworkHUD : MonoBehaviour
 {
     [SerializeField]
     Button hostButton;
+
+    [SerializeField]
+    Button serverButton;
 
     [SerializeField]
     Button connectButton;
@@ -22,11 +23,25 @@ public class NetworkHUD : MonoBehaviour
                 InstanceFinder.ClientManager.StartConnection();
             });
 
+        serverButton
+            .onClick
+            .AddListener(() =>
+            {
+                InstanceFinder.ServerManager.StartConnection();
+            });
+
         connectButton
             .onClick
             .AddListener(() =>
             {
-                InstanceFinder.ClientManager.StartConnection();
+                if (InstanceFinder.ClientManager.Started)
+                {
+                    InstanceFinder.ClientManager.StopConnection();
+                }
+                else
+                {
+                    InstanceFinder.ClientManager.StartConnection();
+                }
             });
     }
 }

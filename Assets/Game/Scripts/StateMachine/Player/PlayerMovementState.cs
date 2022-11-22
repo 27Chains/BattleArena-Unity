@@ -1,6 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+public struct MoveData
+{
+    public Vector3 Movement;
+}
+
+public struct ReconcileData
+{
+    public Vector3 Position;
+}
 
 public class PlayerMovementState : PlayerBaseState
 {
@@ -31,13 +39,9 @@ public class PlayerMovementState : PlayerBaseState
 
     public override void Tick(float deltaTime)
     {
-        if (!stateMachine.isOwner) return;
+        if (!stateMachine.IsOwner) return;
         Vector3 movement = CalculateMovement();
-        float movementSpeed =
-            stateMachine.InputReader.isRunning
-                ? stateMachine.RunningSpeed
-                : stateMachine.WalkingSpeed;
-        Move(movement * movementSpeed, deltaTime);
+        FaceMovementDirection (movement, deltaTime);
 
         if (stateMachine.InputReader.MovementValue == Vector2.zero)
         {
@@ -46,12 +50,32 @@ public class PlayerMovementState : PlayerBaseState
         }
         stateMachine
             .Animator
-            .SetFloat(MovementSpeedHash,
-            stateMachine.InputReader.isRunning ? 1f : 0.5f,
-            smoothingValue,
-            deltaTime);
+            .SetFloat(MovementSpeedHash, 1f, smoothingValue, deltaTime);
+    }
 
-        FaceMovementDirection (movement, deltaTime);
+    public override void TimeManagerTick()
+    {
+        if (stateMachine.IsOwner)
+        {
+            Reconcile(default, false);
+            BuildActions(out MoveData md);
+            Move(md, false);
+        }
+        if (stateMachine.IsServer)
+        {
+            Debug.Log("Tick on the server");
+            Move(default, true);
+            ReconcileData rd =
+                new ReconcileData()
+                { Position = stateMachine.transform.position };
+            Reconcile(rd, true);
+        }
+    }
+
+    private void BuildActions(out MoveData moveData)
+    {
+        moveData = default;
+        moveData.Movement = CalculateMovement() * stateMachine.RunningSpeed;
     }
 
     private void FaceMovementDirection(Vector3 movement, float deltaTime)

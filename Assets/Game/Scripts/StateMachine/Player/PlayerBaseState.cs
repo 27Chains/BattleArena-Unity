@@ -1,3 +1,4 @@
+using FishNet.Object.Prediction;
 using UnityEngine;
 
 public abstract class PlayerBaseState : State
@@ -9,16 +10,23 @@ public abstract class PlayerBaseState : State
         this.stateMachine = stateMachine;
     }
 
-    protected void Move(Vector3 motion, float deltaTime)
+    [Replicate]
+    protected void Move(
+        MoveData moveData,
+        bool asServer,
+        bool replaying = false
+    )
     {
-        stateMachine
-            .CharacterController
-            .Move((motion + stateMachine.ForceReceiver.Movement) * deltaTime);
+        float deltaTime = (float) stateMachine.TimeManager.TickDelta;
+        Vector3 movement = (moveData.Movement);
+
+        stateMachine.CharacterController.Move(movement * deltaTime);
     }
 
-    protected void Move(float deltaTime)
+    [Reconcile]
+    protected void Reconcile(ReconcileData recData, bool asServer)
     {
-        Move(Vector3.zero, deltaTime);
+        stateMachine.transform.position = recData.Position;
     }
 
     protected void ReturnToLocomotion()

@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public abstract class State
 {
     protected const float crossFadeDuration = 0.1f;
@@ -9,6 +5,8 @@ public abstract class State
     public abstract void Enter();
 
     public abstract void Tick(float deltaTime);
+
+    public abstract void TimeManagerTick();
 
     public abstract void Exit();
 }
