@@ -40,42 +40,24 @@ public class PlayerMovementState : PlayerBaseState
     public override void Tick(float deltaTime)
     {
         if (!stateMachine.IsOwner) return;
+
+        if (stateMachine.Animator.GetFloat(MovementSpeedHash) < 0.01f)
+        {
+            stateMachine.Animator.SetFloat(MovementSpeedHash, 0f);
+        }
         Vector3 movement = CalculateMovement();
 
         if (stateMachine.InputReader.MovementValue == Vector2.zero)
         {
-            stateMachine.Animator.SetFloat(MovementSpeedHash, 0f);
+            stateMachine
+                .Animator
+                .SetFloat(MovementSpeedHash, 0f, smoothingValue, deltaTime);
             return;
         }
         FaceMovementDirection (movement, deltaTime);
         stateMachine
             .Animator
             .SetFloat(MovementSpeedHash, 1f, smoothingValue, deltaTime);
-    }
-
-    public override void TimeManagerTick()
-    {
-        if (stateMachine.IsOwner)
-        {
-            Reconcile(default, false);
-            BuildActions(out MoveData md);
-            Move(md, false);
-        }
-        if (stateMachine.IsServer)
-        {
-            Debug.Log("Tick on the server");
-            Move(default, true);
-            ReconcileData rd =
-                new ReconcileData()
-                { Position = stateMachine.transform.position };
-            Reconcile(rd, true);
-        }
-    }
-
-    private void BuildActions(out MoveData moveData)
-    {
-        moveData = default;
-        moveData.Movement = CalculateMovement() * stateMachine.RunningSpeed;
     }
 
     private void FaceMovementDirection(Vector3 movement, float deltaTime)

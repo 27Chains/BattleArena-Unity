@@ -6,7 +6,5 @@ public abstract class State
 
     public abstract void Tick(float deltaTime);
 
-    public abstract void TimeManagerTick();
-
     public abstract void Exit();
 }
