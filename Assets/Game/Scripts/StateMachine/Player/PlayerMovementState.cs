@@ -41,13 +41,13 @@ public class PlayerMovementState : PlayerBaseState
     {
         if (!stateMachine.IsOwner) return;
         Vector3 movement = CalculateMovement();
-        FaceMovementDirection (movement, deltaTime);
 
         if (stateMachine.InputReader.MovementValue == Vector2.zero)
         {
             stateMachine.Animator.SetFloat(MovementSpeedHash, 0f);
             return;
         }
+        FaceMovementDirection (movement, deltaTime);
         stateMachine
             .Animator
             .SetFloat(MovementSpeedHash, 1f, smoothingValue, deltaTime);
