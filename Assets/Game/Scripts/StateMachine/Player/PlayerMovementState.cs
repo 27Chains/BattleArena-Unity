@@ -45,24 +45,6 @@ public class PlayerMovementState : PlayerBaseState
 
         BuildActions(out MoveData md);
         stateMachine.MovementData = md;
-
-        if (stateMachine.Animator.GetFloat(MovementSpeedHash) < 0.01f)
-        {
-            stateMachine.Animator.SetFloat(MovementSpeedHash, 0f);
-        }
-        Vector3 movement = CalculateMovement();
-
-        if (stateMachine.InputReader.MovementValue == Vector2.zero)
-        {
-            stateMachine
-                .Animator
-                .SetFloat(MovementSpeedHash, 0f, smoothingValue, deltaTime);
-            return;
-        }
-        FaceMovementDirection (movement, deltaTime);
-        stateMachine
-            .Animator
-            .SetFloat(MovementSpeedHash, 1f, smoothingValue, deltaTime);
     }
 
     private void FaceMovementDirection(Vector3 movement, float deltaTime)
@@ -77,8 +59,11 @@ public class PlayerMovementState : PlayerBaseState
     private void BuildActions(out MoveData moveData)
     {
         moveData = default;
-
-        moveData.Movement = CalculateMovement() * stateMachine.RunningSpeed;
+        float MovementSpeed =
+            stateMachine.InputReader.isRunning
+                ? stateMachine.RunningSpeed
+                : stateMachine.WalkingSpeed;
+        moveData.Movement = CalculateMovement() * MovementSpeed;
     }
 
     private Vector3 CalculateMovement()
@@ -99,13 +84,18 @@ public class PlayerMovementState : PlayerBaseState
     )
     {
         float deltaTime = (float) stateMachine.TimeManager.TickDelta;
-        Vector3 movement = (moveData.Movement);
-        if (movement != Vector3.zero)
+        if (moveData.Movement != Vector3.zero)
         {
-            stateMachine
-                .Animator
-                .SetFloat(MovementSpeedHash, 1f, smoothingValue, deltaTime);
-            FaceMovementDirection (movement, deltaTime);
+            float MovementSpeed =
+                stateMachine.InputReader.isRunning ? 1f : 0.5f;
+
+            stateMachine.Animator.SetFloat (
+                MovementSpeedHash,
+                MovementSpeed,
+                smoothingValue,
+                deltaTime
+            );
+            FaceMovementDirection(moveData.Movement, deltaTime);
         }
         else
         {
@@ -113,7 +103,11 @@ public class PlayerMovementState : PlayerBaseState
                 .Animator
                 .SetFloat(MovementSpeedHash, 0f, smoothingValue, deltaTime);
         }
+        if (stateMachine.Animator.GetFloat(MovementSpeedHash) < 0.01f)
+        {
+            stateMachine.Animator.SetFloat(MovementSpeedHash, 0f);
+        }
 
-        stateMachine.CharacterController.Move(movement * deltaTime);
+        stateMachine.CharacterController.Move(moveData.Movement * deltaTime);
     }
 }
