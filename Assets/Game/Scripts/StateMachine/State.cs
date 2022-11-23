@@ -7,4 +7,10 @@ public abstract class State
     public abstract void Tick(float deltaTime);
 
     public abstract void Exit();
+
+    public abstract void LogicUpdate(
+        MoveData moveData,
+        bool asServer,
+        bool replaying = false
+    );
 }

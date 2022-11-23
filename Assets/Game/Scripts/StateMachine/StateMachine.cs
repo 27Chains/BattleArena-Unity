@@ -1,6 +1,5 @@
 using System;
 using FishNet.Object;
-using FishNet.Object.Prediction;
 using UnityEngine;
 
 public abstract class StateMachine : NetworkBehaviour
@@ -17,5 +16,14 @@ public abstract class StateMachine : NetworkBehaviour
         _currentState?.Exit();
         _currentState = newState;
         newState?.Enter();
+    }
+
+    public void LogicUpdate(
+        MoveData moveData,
+        bool asServer,
+        bool replaying = false
+    )
+    {
+        _currentState?.LogicUpdate(moveData, asServer, replaying);
     }
 }

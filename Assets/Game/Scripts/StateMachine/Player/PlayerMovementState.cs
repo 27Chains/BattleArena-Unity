@@ -8,6 +8,8 @@ public struct MoveData
 public struct ReconcileData
 {
     public Vector3 Position;
+
+    public Quaternion Rotation;
 }
 
 public class PlayerMovementState : PlayerBaseState
@@ -41,6 +43,9 @@ public class PlayerMovementState : PlayerBaseState
     {
         if (!stateMachine.IsOwner) return;
 
+        BuildActions(out MoveData md);
+        stateMachine.MovementData = md;
+
         if (stateMachine.Animator.GetFloat(MovementSpeedHash) < 0.01f)
         {
             stateMachine.Animator.SetFloat(MovementSpeedHash, 0f);
@@ -69,6 +74,13 @@ public class PlayerMovementState : PlayerBaseState
                 deltaTime * stateMachine.RotationSpeed);
     }
 
+    private void BuildActions(out MoveData moveData)
+    {
+        moveData = default;
+
+        moveData.Movement = CalculateMovement() * stateMachine.RunningSpeed;
+    }
+
     private Vector3 CalculateMovement()
     {
         Vector3 movement = new Vector3();
@@ -78,5 +90,30 @@ public class PlayerMovementState : PlayerBaseState
         movement.z = stateMachine.InputReader.MovementValue.y;
 
         return movement;
+    }
+
+    public override void LogicUpdate(
+        MoveData moveData,
+        bool asServer,
+        bool replaying = false
+    )
+    {
+        float deltaTime = (float) stateMachine.TimeManager.TickDelta;
+        Vector3 movement = (moveData.Movement);
+        if (movement != Vector3.zero)
+        {
+            stateMachine
+                .Animator
+                .SetFloat(MovementSpeedHash, 1f, smoothingValue, deltaTime);
+            FaceMovementDirection (movement, deltaTime);
+        }
+        else
+        {
+            stateMachine
+                .Animator
+                .SetFloat(MovementSpeedHash, 0f, smoothingValue, deltaTime);
+        }
+
+        stateMachine.CharacterController.Move(movement * deltaTime);
     }
 }
