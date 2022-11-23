@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public struct MoveData
@@ -31,6 +32,7 @@ public class PlayerMovementState : PlayerBaseState
 
     public override void Enter()
     {
+        stateMachine.InputReader.AttackEvent += OnAttack;
         stateMachine.Animator.CrossFadeInFixedTime (
             MovementBlendTreeHash,
             crossFadeDuration
@@ -39,6 +41,12 @@ public class PlayerMovementState : PlayerBaseState
 
     public override void Exit()
     {
+        stateMachine.InputReader.AttackEvent -= OnAttack;
+    }
+
+    private void OnAttack()
+    {
+        stateMachine.SwitchState(new PlayerAttackingState(stateMachine));
     }
 
     public override void Tick(float deltaTime)
@@ -110,6 +118,6 @@ public class PlayerMovementState : PlayerBaseState
             stateMachine.Animator.SetFloat(MovementSpeedHash, 0f);
         }
 
-        stateMachine.CharacterController.Move(moveData.Movement * deltaTime);
+        Move(moveData.Movement, deltaTime);
     }
 }
