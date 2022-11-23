@@ -1,10 +1,8 @@
 using System;
-using FishNet.Object;
-using FishNet.Object.Synchronizing;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputReader : NetworkBehaviour, PlayerControls.IPlayerActions
+public class InputReader : MonoBehaviour, PlayerControls.IPlayerActions
 {
     public Vector2 MovementValue { get; private set; }
 
@@ -12,7 +10,6 @@ public class InputReader : NetworkBehaviour, PlayerControls.IPlayerActions
 
     public event Action AttackEvent;
 
-    [field: SyncVar]
     public bool isRunning { get; private set; }
 
     private void Start()
@@ -35,21 +32,14 @@ public class InputReader : NetworkBehaviour, PlayerControls.IPlayerActions
 
     public void OnRun(InputAction.CallbackContext context)
     {
-        if (!IsOwner) return;
         if (context.performed)
         {
-            SetIsRunning(true);
+            isRunning = true;
         }
         else if (context.canceled)
         {
-            SetIsRunning(false);
+            isRunning = false;
         }
-    }
-
-    [ServerRpc]
-    private void SetIsRunning(bool isRunning)
-    {
-        this.isRunning = isRunning;
     }
 
     public void OnAttack(InputAction.CallbackContext context)

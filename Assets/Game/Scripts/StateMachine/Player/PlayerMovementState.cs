@@ -3,6 +3,8 @@ using UnityEngine;
 public struct MoveData
 {
     public Vector3 Movement;
+
+    public bool IsRunning;
 }
 
 public struct ReconcileData
@@ -64,6 +66,7 @@ public class PlayerMovementState : PlayerBaseState
                 ? stateMachine.RunningSpeed
                 : stateMachine.WalkingSpeed;
         moveData.Movement = CalculateMovement() * MovementSpeed;
+        moveData.IsRunning = stateMachine.InputReader.isRunning;
     }
 
     private Vector3 CalculateMovement()
@@ -86,8 +89,7 @@ public class PlayerMovementState : PlayerBaseState
         float deltaTime = (float) stateMachine.TimeManager.TickDelta;
         if (moveData.Movement != Vector3.zero)
         {
-            float MovementSpeed =
-                stateMachine.InputReader.isRunning ? 1f : 0.5f;
+            float MovementSpeed = moveData.IsRunning ? 1f : 0.5f;
 
             stateMachine.Animator.SetFloat (
                 MovementSpeedHash,
