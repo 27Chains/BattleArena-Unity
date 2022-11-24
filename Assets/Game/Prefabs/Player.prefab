@@ -238,8 +238,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9ee51df9dd5942168e8fa040fbd97ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: 2821410769227128586}
+  _networkObjectCache: {fileID: 2821410769227128586}
   controller: {fileID: 4867883370284613175}
-  drag: 0.3
+  drag: 0.1
 --- !u!114 &4867883370284613169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,6 +255,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d887f5361d564ca1be3cf3cb8554a42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 2
+  _addedNetworkObject: {fileID: 2821410769227128586}
+  _networkObjectCache: {fileID: 2821410769227128586}
 --- !u!114 &2821410769227128586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,6 +274,8 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   _networkBehaviours:
   - {fileID: 4867883370284613171}
+  - {fileID: 4867883370284613170}
+  - {fileID: 4867883370284613169}
   - {fileID: 489113228700210211}
   - {fileID: 8332382748139297915}
   - {fileID: 9011259621309827166}
@@ -294,7 +302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402926ef33e0a894d9fec352693988ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 1
+  _componentIndexCache: 3
   _addedNetworkObject: {fileID: 2821410769227128586}
   _networkObjectCache: {fileID: 2821410769227128586}
   _graphicalObject: {fileID: 7305896409191516099}
@@ -325,7 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 2
+  _componentIndexCache: 4
   _addedNetworkObject: {fileID: 2821410769227128586}
   _networkObjectCache: {fileID: 2821410769227128586}
   _synchronizeParent: 0
@@ -6766,7 +6774,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8cac635f24954048aad3a6ff9110beb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 3
+  _componentIndexCache: 5
   _addedNetworkObject: {fileID: 2821410769227128586}
   _networkObjectCache: {fileID: 2821410769227128586}
   IgnoredParameters: []
@@ -69732,7 +69740,7 @@ GameObject:
   - component: {fileID: 8689408657992649520}
   - component: {fileID: 8697188977772241680}
   m_Layer: 0
-  m_Name: Weapon
+  m_Name: Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

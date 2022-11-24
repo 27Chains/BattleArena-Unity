@@ -2356,7 +2356,7 @@ MonoBehaviour:
   _updateOrder: 0
   _allowTickDropping: 0
   _maximumFrameTicks: 2
-  _tickRate: 30
+  _tickRate: 60
   _pingInterval: 1
   _timingInterval: 2
   _physicsMode: 1
