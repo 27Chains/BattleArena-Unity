@@ -1,7 +1,5 @@
 using System;
 using FishNet.Object;
-using FishNet.Object.Prediction;
-using FishNet.Object.Synchronizing;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -47,14 +45,25 @@ public class InputReader : NetworkBehaviour, PlayerControls.IPlayerActions
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && IsOwner)
         {
-            ServerAttack();
+            ServerAttackEventHandler();
         }
     }
 
     [ServerRpc(RunLocally = true)]
-    private void ServerAttack()
+    private void ServerAttackEventHandler()
+    {
+        if (IsServer)
+        {
+            ObserversAttack();
+        }
+
+        AttackEvent?.Invoke();
+    }
+
+    [ObserversRpc(IncludeOwner = false)]
+    private void ObserversAttack()
     {
         AttackEvent?.Invoke();
     }
