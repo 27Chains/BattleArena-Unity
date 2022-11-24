@@ -8,7 +8,7 @@ public abstract class State
 
     public abstract void Exit();
 
-    public abstract void LogicUpdate(
+    public abstract void MovementUpdate(
         MoveData moveData,
         bool asServer,
         bool replaying = false

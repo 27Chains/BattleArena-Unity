@@ -56,7 +56,7 @@ public class PlayerStateMachine : StateMachine
     [Replicate]
     private void Move(MoveData moveData, bool asServer, bool replaying = false)
     {
-        LogicUpdate (moveData, asServer, replaying);
+        MovementUpdate (moveData, asServer, replaying);
     }
 
     [Reconcile]

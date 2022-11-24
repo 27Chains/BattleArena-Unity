@@ -1,5 +1,6 @@
 using System;
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using UnityEngine;
 
 public abstract class StateMachine : NetworkBehaviour
@@ -18,12 +19,12 @@ public abstract class StateMachine : NetworkBehaviour
         newState?.Enter();
     }
 
-    public void LogicUpdate(
+    public void MovementUpdate(
         MoveData moveData,
         bool asServer,
         bool replaying = false
     )
     {
-        _currentState?.LogicUpdate(moveData, asServer, replaying);
+        _currentState?.MovementUpdate(moveData, asServer, replaying);
     }
 }

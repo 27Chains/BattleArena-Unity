@@ -1,8 +1,11 @@
 using System;
+using FishNet.Object;
+using FishNet.Object.Prediction;
+using FishNet.Object.Synchronizing;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputReader : MonoBehaviour, PlayerControls.IPlayerActions
+public class InputReader : NetworkBehaviour, PlayerControls.IPlayerActions
 {
     public Vector2 MovementValue { get; private set; }
 
@@ -46,7 +49,14 @@ public class InputReader : MonoBehaviour, PlayerControls.IPlayerActions
     {
         if (context.performed)
         {
+            ServerAttack();
             AttackEvent?.Invoke();
         }
+    }
+
+    [ServerRpc(RunLocally = true)]
+    private void ServerAttack()
+    {
+        AttackEvent?.Invoke();
     }
 }

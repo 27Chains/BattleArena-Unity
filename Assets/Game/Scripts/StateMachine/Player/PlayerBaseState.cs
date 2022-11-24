@@ -1,4 +1,3 @@
-using FishNet.Object.Prediction;
 using UnityEngine;
 
 public abstract class PlayerBaseState : State

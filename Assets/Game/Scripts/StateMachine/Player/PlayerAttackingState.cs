@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerAttackingState : PlayerBaseState
 {
@@ -17,7 +13,7 @@ public class PlayerAttackingState : PlayerBaseState
 
     public override void Enter()
     {
-        stateMachine.ServerCall();
+        Attack();
     }
 
     private void Attack()
@@ -32,7 +28,7 @@ public class PlayerAttackingState : PlayerBaseState
     {
     }
 
-    public override void LogicUpdate(
+    public override void MovementUpdate(
         MoveData moveData,
         bool asServer,
         bool replaying = false

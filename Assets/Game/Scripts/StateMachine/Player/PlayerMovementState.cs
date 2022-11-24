@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public struct MoveData
@@ -88,7 +87,7 @@ public class PlayerMovementState : PlayerBaseState
         return movement;
     }
 
-    public override void LogicUpdate(
+    public override void MovementUpdate(
         MoveData moveData,
         bool asServer,
         bool replaying = false
