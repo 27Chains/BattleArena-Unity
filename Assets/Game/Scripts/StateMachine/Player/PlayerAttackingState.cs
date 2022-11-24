@@ -39,5 +39,9 @@ public class PlayerAttackingState : PlayerBaseState
 
     public override void Tick(float deltaTime)
     {
+        if (GetNormalizedTime(stateMachine.Animator, animationName) >= 1f)
+        {
+            stateMachine.SwitchState(new PlayerMovementState(stateMachine));
+        }
     }
 }

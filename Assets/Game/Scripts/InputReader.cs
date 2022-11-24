@@ -50,7 +50,6 @@ public class InputReader : NetworkBehaviour, PlayerControls.IPlayerActions
         if (context.performed)
         {
             ServerAttack();
-            AttackEvent?.Invoke();
         }
     }
 
