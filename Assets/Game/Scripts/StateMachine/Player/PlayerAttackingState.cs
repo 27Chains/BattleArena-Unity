@@ -1,4 +1,6 @@
+using FishNet;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerAttackingState : PlayerBaseState
 {
@@ -20,6 +22,14 @@ public class PlayerAttackingState : PlayerBaseState
 
     private void Attack()
     {
+        if (InstanceFinder.IsClient && stateMachine.IsOwner)
+        {
+            Vector3 mousePosition = GetMousePositionInWorld();
+            Vector3 direction =
+                (mousePosition - stateMachine.transform.position).normalized;
+            stateMachine.ServerRotateAttackDirection (direction);
+        }
+
         stateMachine.Animator.CrossFadeInFixedTime (
             animationName,
             transitionDuration
@@ -55,6 +65,21 @@ public class PlayerAttackingState : PlayerBaseState
         {
             stateMachine.SwitchState(new PlayerMovementState(stateMachine));
         }
+    }
+
+    private Vector3 GetMousePositionInWorld()
+    {
+        LayerMask layerMask = LayerMask.GetMask("Ground");
+
+        Ray ray =
+            Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000, layerMask))
+        {
+            return hit.point;
+        }
+
+        return Vector3.zero;
     }
 
     private void TryApplyForce()

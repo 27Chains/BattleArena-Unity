@@ -1,6 +1,7 @@
+using FishNet.Object;
 using UnityEngine;
 
-public class Footsteps : MonoBehaviour
+public class Footsteps : NetworkBehaviour
 {
     [SerializeField]
     private PlayerStateMachine stateMachine;
@@ -16,6 +17,7 @@ public class Footsteps : MonoBehaviour
 
     public void FootR()
     {
+        if (!IsOwner) return;
         if (stateMachine.InputReader.isRunning)
         {
             audioSource
@@ -32,6 +34,7 @@ public class Footsteps : MonoBehaviour
 
     public void FootL()
     {
+        if (!IsOwner) return;
         if (stateMachine.InputReader.isRunning)
         {
             audioSource

@@ -4,6 +4,8 @@ public struct MoveData
 {
     public Vector3 Movement;
 
+    public Quaternion Rotation;
+
     public bool IsRunning;
 }
 

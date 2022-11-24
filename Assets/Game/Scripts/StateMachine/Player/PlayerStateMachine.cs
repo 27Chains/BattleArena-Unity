@@ -1,4 +1,5 @@
 using Cinemachine;
+using FishNet.Object;
 using FishNet.Object.Prediction;
 using UnityEngine;
 
@@ -26,8 +27,6 @@ public class PlayerStateMachine : StateMachine
     public float RotationSpeed { get; private set; }
 
     public MoveData MovementData;
-
-    public Transform MainCameraTransform { get; private set; }
 
     public override void OnStartClient()
     {
@@ -64,6 +63,12 @@ public class PlayerStateMachine : StateMachine
     {
         transform.position = recData.Position;
         transform.rotation = recData.Rotation;
+    }
+
+    [ServerRpc(RunLocally = true)]
+    public void ServerRotateAttackDirection(Vector3 mouseDirection)
+    {
+        transform.rotation = Quaternion.LookRotation(mouseDirection);
     }
 
     private void TimeManager_OnTick()
