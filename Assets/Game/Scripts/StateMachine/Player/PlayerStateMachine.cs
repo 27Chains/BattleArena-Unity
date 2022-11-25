@@ -31,6 +31,10 @@ public class PlayerStateMachine : StateMachine
     public override void OnStartClient()
     {
         base.OnStartClient();
+        if (!base.IsOwner)
+        {
+            GetComponent<PlayerStateMachine>().enabled = false;
+        }
         if (IsOwner)
         {
             CinemachineVirtualCamera virtualCamera =

@@ -11,6 +11,8 @@ public class InputReader : NetworkBehaviour, PlayerControls.IPlayerActions
 
     public event Action AttackEvent;
 
+    public event Action ShowWeaponEvent;
+
     public bool isRunning { get; private set; }
 
     private void Start()
@@ -66,5 +68,13 @@ public class InputReader : NetworkBehaviour, PlayerControls.IPlayerActions
     private void ObserversAttack()
     {
         AttackEvent?.Invoke();
+    }
+
+    public void OnShowWeapon(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            ShowWeaponEvent?.Invoke();
+        }
     }
 }
