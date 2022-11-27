@@ -17,27 +17,21 @@ public class PlayerAttackingState : PlayerBaseState
 
     public override void Enter()
     {
+        stateMachine.CrossFadeAnimation (animationName, transitionDuration);
         Attack();
     }
 
     private void Attack()
     {
-        if (InstanceFinder.IsClient && stateMachine.IsOwner)
-        {
-            Vector3 mousePosition = GetMousePositionInWorld();
-            Vector3 direction =
-                (mousePosition - stateMachine.transform.position).normalized;
-            stateMachine.ServerRotateAttackDirection (direction);
-        }
-
-        stateMachine.Animator.CrossFadeInFixedTime (
-            animationName,
-            transitionDuration
-        );
+        Vector3 mousePosition = GetMousePositionInWorld();
+        Vector3 direction =
+            (mousePosition - stateMachine.transform.position).normalized;
+        stateMachine.transform.rotation = Quaternion.LookRotation(direction);
     }
 
     public override void Exit()
     {
+        alreadyAppliedForce = false;
     }
 
     public override void MovementUpdate(
@@ -46,7 +40,7 @@ public class PlayerAttackingState : PlayerBaseState
         bool replaying = false
     )
     {
-        Move((float) stateMachine.TimeManager.TickDelta);
+        Move((float) stateMachine.Player.TimeManager.TickDelta);
     }
 
     public override void Tick(float deltaTime)
@@ -63,7 +57,7 @@ public class PlayerAttackingState : PlayerBaseState
         }
         else
         {
-            stateMachine.SwitchState(new PlayerMovementState(stateMachine));
+            stateMachine.SwitchState(PlayerState.Movement);
         }
     }
 
@@ -84,10 +78,7 @@ public class PlayerAttackingState : PlayerBaseState
 
     private void TryApplyForce()
     {
-        if (alreadyAppliedForce || !stateMachine.IsOwner)
-        {
-            return;
-        }
+        if (alreadyAppliedForce) return;
         alreadyAppliedForce = true;
         stateMachine
             .ForceReceiver

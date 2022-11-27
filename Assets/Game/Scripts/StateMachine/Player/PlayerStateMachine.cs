@@ -1,9 +1,16 @@
 using Cinemachine;
+using FishNet.Component.Animating;
 using FishNet.Object;
-using FishNet.Object.Prediction;
+using FishNet.Object.Synchronizing;
 using UnityEngine;
 
-public class PlayerStateMachine : StateMachine
+public enum PlayerState
+{
+    Movement,
+    Attacking
+}
+
+public class PlayerStateMachine : NetworkBehaviour
 {
     [field: SerializeField]
     public InputReader InputReader { get; private set; }
@@ -13,6 +20,12 @@ public class PlayerStateMachine : StateMachine
 
     [field: SerializeField]
     public Animator Animator { get; private set; }
+
+    [field: SerializeField]
+    public NetworkAnimator NetworkAnimator { get; private set; }
+
+    [field: SerializeField]
+    public Player Player { get; private set; }
 
     [field: SerializeField]
     public ForceReceiver ForceReceiver { get; private set; }
@@ -26,77 +39,56 @@ public class PlayerStateMachine : StateMachine
     [field: SerializeField]
     public float RotationSpeed { get; private set; }
 
+    private State _currentState;
+
+    private State[] _states = new State[2];
+
+    public State CurrentState => _currentState;
+
     public MoveData MovementData;
 
-    public override void OnStartClient()
+    private void Awake()
     {
-        base.OnStartClient();
-        if (!base.IsOwner)
-        {
-            GetComponent<PlayerStateMachine>().enabled = false;
-        }
-        if (IsOwner)
-        {
-            CinemachineVirtualCamera virtualCamera =
-                FindObjectOfType<CinemachineVirtualCamera>();
-            virtualCamera.Follow = transform.GetChild(0).transform;
-        }
-    }
-
-    public override void OnStartNetwork()
-    {
-        base.OnStartNetwork();
-        base.TimeManager.OnTick += TimeManager_OnTick;
-    }
-
-    public override void OnStopNetwork()
-    {
-        base.OnStopNetwork();
-        if (base.TimeManager != null)
-            base.TimeManager.OnTick -= TimeManager_OnTick;
-    }
-
-    [Replicate]
-    private void Move(MoveData moveData, bool asServer, bool replaying = false)
-    {
-        MovementUpdate (moveData, asServer, replaying);
-    }
-
-    [Reconcile]
-    private void Reconcile(ReconcileData recData, bool asServer)
-    {
-        transform.position = recData.Position;
-        transform.rotation = recData.Rotation;
-    }
-
-    [ServerRpc(RunLocally = true)]
-    public void ServerRotateAttackDirection(Vector3 mouseDirection)
-    {
-        transform.rotation = Quaternion.LookRotation(mouseDirection);
-    }
-
-    private void TimeManager_OnTick()
-    {
-        if (IsOwner)
-        {
-            Reconcile(default, false);
-            Move(MovementData, false);
-        }
-        if (IsServer)
-        {
-            Move(default, true);
-            ReconcileData rd =
-                new ReconcileData()
-                {
-                    Position = transform.position,
-                    Rotation = transform.rotation
-                };
-            Reconcile(rd, true);
-        }
+        _states[(int) PlayerState.Movement] = new PlayerMovementState(this);
+        _states[(int) PlayerState.Attacking] = new PlayerAttackingState(this);
     }
 
     private void Start()
     {
-        SwitchState(new PlayerMovementState(this));
+        SwitchState(PlayerState.Movement);
+    }
+
+    [SyncVar]
+    private int _currentStateIndex;
+
+    private void Update()
+    {
+        _currentState?.Tick(Time.deltaTime);
+    }
+
+    [ServerRpc(RunLocally = true)]
+    public void SwitchState(PlayerState state)
+    {
+        _currentState?.Exit();
+        _currentState = _states[(int) state];
+        _currentState?.Enter();
+    }
+
+    public void MovementUpdate(
+        MoveData moveData,
+        bool asServer,
+        bool replaying = false
+    )
+    {
+        _currentState?.MovementUpdate(moveData, asServer, replaying);
+    }
+
+    [ServerRpc(RunLocally = true)]
+    public void CrossFadeAnimation(
+        string animationName,
+        float crossFadeDuration
+    )
+    {
+        Animator.CrossFadeInFixedTime (animationName, crossFadeDuration);
     }
 }

@@ -20,9 +20,4 @@ public abstract class PlayerBaseState : State
     {
         Move(Vector3.zero, deltaTime);
     }
-
-    protected void ReturnToLocomotion()
-    {
-        stateMachine.SwitchState(new PlayerMovementState(stateMachine));
-    }
 }

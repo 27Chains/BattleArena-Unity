@@ -47,13 +47,11 @@ public class PlayerMovementState : PlayerBaseState
 
     private void OnAttack()
     {
-        stateMachine.SwitchState(new PlayerAttackingState(stateMachine));
+        stateMachine.SwitchState(PlayerState.Attacking);
     }
 
     public override void Tick(float deltaTime)
     {
-        if (!stateMachine.IsOwner) return;
-
         BuildActions(out MoveData md);
         stateMachine.MovementData = md;
     }
@@ -95,7 +93,7 @@ public class PlayerMovementState : PlayerBaseState
         bool replaying = false
     )
     {
-        float deltaTime = (float) stateMachine.TimeManager.TickDelta;
+        float deltaTime = (float) stateMachine.Player.TimeManager.TickDelta;
         if (moveData.Movement != Vector3.zero)
         {
             float MovementSpeed = moveData.IsRunning ? 1f : 0.5f;
