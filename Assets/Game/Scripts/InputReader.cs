@@ -1,9 +1,8 @@
 using System;
-using FishNet.Object;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputReader : NetworkBehaviour, PlayerControls.IPlayerActions
+public class InputReader : MonoBehaviour, PlayerControls.IPlayerActions
 {
     public Vector2 MovementValue { get; private set; }
 
@@ -47,27 +46,10 @@ public class InputReader : NetworkBehaviour, PlayerControls.IPlayerActions
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.performed && IsOwner)
+        if (context.performed)
         {
-            ServerAttackEventHandler();
+            AttackEvent?.Invoke();
         }
-    }
-
-    [ServerRpc(RunLocally = true)]
-    private void ServerAttackEventHandler()
-    {
-        if (IsServer)
-        {
-            ObserversAttack();
-        }
-
-        AttackEvent?.Invoke();
-    }
-
-    [ObserversRpc(IncludeOwner = false)]
-    private void ObserversAttack()
-    {
-        AttackEvent?.Invoke();
     }
 
     public void OnShowWeapon(InputAction.CallbackContext context)
