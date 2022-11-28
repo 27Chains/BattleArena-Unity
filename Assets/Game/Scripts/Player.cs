@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Cinemachine;
 using FishNet.Object;
 using FishNet.Object.Prediction;
@@ -45,7 +43,10 @@ public class Player : NetworkBehaviour
             animName,
             transitionDuration
         );
-        ObserversPlayAnim (animName, transitionDuration);
+        if (IsServer)
+        {
+            ObserversPlayAnim (animName, transitionDuration);
+        }
     }
 
     [ObserversRpc(IncludeOwner = false)]
@@ -55,6 +56,18 @@ public class Player : NetworkBehaviour
             animName,
             transitionDuration
         );
+    }
+
+    [ServerRpc(RunLocally = true)]
+    public void ServerRotatePlayer(Vector3 direction)
+    {
+        _stateMachine.transform.rotation = Quaternion.LookRotation(direction);
+    }
+
+    [ServerRpc(RunLocally = true)]
+    public void ServerApplyForce(Vector3 direction, float force)
+    {
+        _stateMachine.ForceReceiver.AddForce(direction * force);
     }
 
     [Reconcile]

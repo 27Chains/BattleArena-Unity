@@ -44,6 +44,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     private State[] _states = new State[2];
 
+    [HideInInspector]
     public State CurrentState => _states[_currentStateIndex];
 
     public MoveData MovementData;

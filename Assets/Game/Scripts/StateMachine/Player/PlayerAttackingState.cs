@@ -8,6 +8,8 @@ public class PlayerAttackingState : PlayerBaseState
 
     private string animationName = "Attack1";
 
+    private float weaponForce = 5f;
+
     private int _attackAnimationHash = Animator.StringToHash("Attack1");
 
     private bool alreadyAppliedForce;
@@ -32,7 +34,7 @@ public class PlayerAttackingState : PlayerBaseState
         Vector3 mousePosition = GetMousePositionInWorld();
         Vector3 direction =
             (mousePosition - stateMachine.transform.position).normalized;
-        stateMachine.transform.rotation = Quaternion.LookRotation(direction);
+        stateMachine.Player.ServerRotatePlayer (direction);
     }
 
     public override void Exit()
@@ -88,7 +90,7 @@ public class PlayerAttackingState : PlayerBaseState
         if (alreadyAppliedForce) return;
         alreadyAppliedForce = true;
         stateMachine
-            .ForceReceiver
-            .AddForce(stateMachine.transform.forward * 5f);
+            .Player
+            .ServerApplyForce(stateMachine.transform.forward, weaponForce);
     }
 }

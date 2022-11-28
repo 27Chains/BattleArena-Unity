@@ -107,8 +107,6 @@ public class PlayerMovementState : PlayerBaseState
                 smoothingValue,
                 deltaTime
             );
-
-            if (stateMachine.Animator.IsInTransition(0)) return;
             FaceMovementDirection(moveData.Movement, deltaTime);
         }
         else

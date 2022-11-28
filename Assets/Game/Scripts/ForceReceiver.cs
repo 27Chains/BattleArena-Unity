@@ -1,7 +1,7 @@
 using FishNet.Object;
 using UnityEngine;
 
-public class ForceReceiver : NetworkBehaviour
+public class ForceReceiver : MonoBehaviour
 {
     private Vector3 impact;
 
@@ -18,7 +18,6 @@ public class ForceReceiver : NetworkBehaviour
             Vector3.SmoothDamp(impact, Vector3.zero, ref dampingVelocity, drag);
     }
 
-    [ServerRpc(RunLocally = true)]
     public void AddForce(Vector3 force)
     {
         impact += force;
