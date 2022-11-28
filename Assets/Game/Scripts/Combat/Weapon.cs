@@ -6,6 +6,7 @@ using UnityEngine;
         menuName = "Weapons/Make New Weapon",
         order = 0)
 ]
+// TODO what should this component include? if item is upgradeable how to approach it, do we need to make a new weapon or just upgrade the existing one?
 public class Weapon : ScriptableObject
 {
     [SerializeField]
@@ -16,6 +17,15 @@ public class Weapon : ScriptableObject
 
     [SerializeField]
     private GameObject equippedPrefab;
+
+    [SerializeField]
+    public string[] AttackAnimations;
+
+    [SerializeField]
+    public float[] ComboAttackTime;
+
+    [SerializeField]
+    public float[] ComboAttackWindow;
 
     const string weaponName = "Weapon";
 

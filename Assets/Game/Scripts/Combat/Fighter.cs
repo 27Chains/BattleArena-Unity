@@ -4,16 +4,18 @@ using UnityEngine;
 public class Fighter : NetworkBehaviour
 {
     [SerializeField]
-    private Transform rightHandWeaponHolder = null;
+    private Transform _rightHandWeaponHolder = null;
 
     [SerializeField]
     private InputReader inputReader;
 
     [SerializeField]
-    private Weapon currentWeapon = null;
+    private Weapon _currentWeapon = null;
 
     [HideInInspector]
-    public GameObject spawnedWeapon = null;
+    public GameObject _spawnedWeapon = null;
+
+    public Weapon CurrentWeapon => _currentWeapon;
 
     public override void OnStartClient()
     {
@@ -28,21 +30,22 @@ public class Fighter : NetworkBehaviour
 
     private void HandleSpawn()
     {
-        if (spawnedWeapon == null)
+        if (_spawnedWeapon == null)
         {
             SpawnWeapon(this);
         }
         else
         {
-            DespawnWeapon (spawnedWeapon);
+            DespawnWeapon (_spawnedWeapon);
         }
     }
 
+    // TODO in the future the weapons will spawn based on the players possession after we load from the database
     [ServerRpc]
     public void SpawnWeapon(Fighter script)
     {
         GameObject weaponInstance =
-            currentWeapon.CreateInstance(rightHandWeaponHolder);
+            _currentWeapon.CreateInstance(_rightHandWeaponHolder);
         Spawn (weaponInstance, Owner);
         SetSpawnedWeapon (weaponInstance, script);
     }
@@ -50,9 +53,10 @@ public class Fighter : NetworkBehaviour
     [ObserversRpc]
     public void SetSpawnedWeapon(GameObject spawnedWeapon, Fighter script)
     {
-        script.spawnedWeapon = spawnedWeapon;
+        script._spawnedWeapon = spawnedWeapon;
     }
 
+    // TODO just for testing, user should not despawn weapon on request but need to be able to sheath it
     [ServerRpc]
     public void DespawnWeapon(GameObject weapon)
     {

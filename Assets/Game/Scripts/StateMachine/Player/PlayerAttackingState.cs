@@ -1,4 +1,3 @@
-using FishNet;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,25 +5,42 @@ public class PlayerAttackingState : PlayerBaseState
 {
     private float transitionDuration = 0.1f;
 
-    private string animationName = "Attack1";
+    private int attackIndex = 0;
+
+    private bool comboFailed;
 
     private float weaponForce = 5f;
 
-    private int _attackAnimationHash = Animator.StringToHash("Attack1");
+    private float normalizedTime;
 
     private bool alreadyAppliedForce;
 
-    public PlayerAttackingState(PlayerStateMachine stateMachine) :
+    private PlayerState nextComboState;
+
+    public PlayerAttackingState(
+        PlayerStateMachine stateMachine,
+        int attackIndex
+    ) :
         base(stateMachine)
     {
+        // TODO We are checking what animation to play based on the attack index which is hardcoded for each attack state
+        this.attackIndex = attackIndex;
     }
 
     public override void Enter()
     {
         if (!stateMachine.IsOwner) return;
+        stateMachine.InputReader.AttackEvent += TryComboAttack;
         Attack();
+        int attackAnimationHash =
+            Animator
+                .StringToHash(stateMachine
+                    .Fighter
+                    .CurrentWeapon
+                    .AttackAnimations[attackIndex]);
+
         stateMachine.Player.ServerPlayAnim (
-            _attackAnimationHash,
+            attackAnimationHash,
             transitionDuration
         );
     }
@@ -40,6 +56,8 @@ public class PlayerAttackingState : PlayerBaseState
     public override void Exit()
     {
         alreadyAppliedForce = false;
+        comboFailed = false;
+        stateMachine.InputReader.AttackEvent -= TryComboAttack;
     }
 
     public override void MovementUpdate(
@@ -54,8 +72,9 @@ public class PlayerAttackingState : PlayerBaseState
     public override void Tick(float deltaTime)
     {
         if (!stateMachine.IsOwner) return;
-        float normalizedTime =
-            GetNormalizedTime(stateMachine.Animator, animationName);
+        normalizedTime =
+            GetNormalizedTime(stateMachine.Animator,
+            stateMachine.Fighter.CurrentWeapon.AttackAnimations[attackIndex]);
 
         if (normalizedTime < 1f)
         {
@@ -92,5 +111,45 @@ public class PlayerAttackingState : PlayerBaseState
         stateMachine
             .Player
             .ServerApplyForce(stateMachine.transform.forward, weaponForce);
+    }
+
+    // TODO thinking this could be done better
+    private void TryComboAttack()
+    {
+        if (comboFailed) return;
+        if (
+            attackIndex ==
+            stateMachine.Fighter.CurrentWeapon.AttackAnimations.Length - 1
+        )
+        {
+            comboFailed = true;
+            return;
+        }
+
+        float comboAttackTime =
+            stateMachine.Fighter.CurrentWeapon.ComboAttackTime[attackIndex];
+        float comboWindow =
+            stateMachine.Fighter.CurrentWeapon.ComboAttackWindow[attackIndex];
+
+        if (normalizedTime < comboAttackTime)
+        {
+            comboFailed = true;
+            return;
+        }
+        if (
+            normalizedTime > comboAttackTime &&
+            normalizedTime < comboAttackTime + comboWindow
+        )
+        {
+            // TODO This is ugly and hardly expandable
+            if (stateMachine.CurrentState == PlayerState.ComboAttack1)
+            {
+                stateMachine.SwitchState(PlayerState.ComboAttack2);
+            }
+            else
+            {
+                stateMachine.SwitchState(PlayerState.ComboAttack1);
+            }
+        }
     }
 }

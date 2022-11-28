@@ -16,3 +16,13 @@ MonoBehaviour:
   weaponRange: 2
   equippedPrefab: {fileID: 7850953861612825553, guid: 257814eb0084d4a6dbbee6dd679ec270,
     type: 3}
+  AttackAnimations:
+  - Attack1
+  - Attack2
+  - Attack3
+  ComboAttackTime:
+  - 0.5
+  - 0.5
+  ComboAttackWindow:
+  - 0.1
+  - 0.1

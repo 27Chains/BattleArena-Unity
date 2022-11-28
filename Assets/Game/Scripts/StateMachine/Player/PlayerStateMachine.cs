@@ -7,7 +7,9 @@ using UnityEngine;
 public enum PlayerState
 {
     Movement,
-    Attacking
+    Attacking,
+    ComboAttack1,
+    ComboAttack2
 }
 
 public class PlayerStateMachine : NetworkBehaviour
@@ -28,6 +30,9 @@ public class PlayerStateMachine : NetworkBehaviour
     public Player Player { get; private set; }
 
     [field: SerializeField]
+    public Fighter Fighter { get; private set; }
+
+    [field: SerializeField]
     public ForceReceiver ForceReceiver { get; private set; }
 
     [field: SerializeField]
@@ -40,19 +45,25 @@ public class PlayerStateMachine : NetworkBehaviour
     public float RotationSpeed { get; private set; }
 
     [SyncVar]
+    [HideInInspector]
     private int _currentStateIndex;
 
-    private State[] _states = new State[2];
+    private State[] _states = new State[4];
 
     [HideInInspector]
-    public State CurrentState => _states[_currentStateIndex];
+    public PlayerState CurrentState => (PlayerState) _currentStateIndex;
 
     public MoveData MovementData;
 
     private void Awake()
     {
         _states[(int) PlayerState.Movement] = new PlayerMovementState(this);
-        _states[(int) PlayerState.Attacking] = new PlayerAttackingState(this);
+        _states[(int) PlayerState.Attacking] =
+            new PlayerAttackingState(this, 0);
+        _states[(int) PlayerState.ComboAttack1] =
+            new PlayerAttackingState(this, 1);
+        _states[(int) PlayerState.ComboAttack2] =
+            new PlayerAttackingState(this, 2);
     }
 
     public override void OnStartClient()
