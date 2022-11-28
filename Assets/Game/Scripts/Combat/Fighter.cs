@@ -21,6 +21,7 @@ public class Fighter : NetworkBehaviour
         if (!base.IsOwner)
         {
             GetComponent<Fighter>().enabled = false;
+            return;
         }
         inputReader.ShowWeaponEvent += HandleSpawn;
     }

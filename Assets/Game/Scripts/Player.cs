@@ -26,6 +26,7 @@ public class Player : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
+        if (!IsOwner) return;
         CinemachineVirtualCamera virtualCamera =
             FindObjectOfType<CinemachineVirtualCamera>();
         virtualCamera.Follow = transform.GetChild(0).transform;
@@ -35,6 +36,25 @@ public class Player : NetworkBehaviour
     private void Move(MoveData moveData, bool asServer, bool replaying = false)
     {
         _stateMachine.MovementUpdate (moveData, asServer, replaying);
+    }
+
+    [ServerRpc(RunLocally = true)]
+    public void ServerPlayAnim(int animName, float transitionDuration)
+    {
+        _stateMachine.Animator.CrossFadeInFixedTime (
+            animName,
+            transitionDuration
+        );
+        ObserversPlayAnim (animName, transitionDuration);
+    }
+
+    [ObserversRpc(IncludeOwner = false)]
+    public void ObserversPlayAnim(int animName, float transitionDuration)
+    {
+        _stateMachine.Animator.CrossFadeInFixedTime (
+            animName,
+            transitionDuration
+        );
     }
 
     [Reconcile]

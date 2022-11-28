@@ -8,6 +8,8 @@ public class PlayerAttackingState : PlayerBaseState
 
     private string animationName = "Attack1";
 
+    private int _attackAnimationHash = Animator.StringToHash("Attack1");
+
     private bool alreadyAppliedForce;
 
     public PlayerAttackingState(PlayerStateMachine stateMachine) :
@@ -17,8 +19,12 @@ public class PlayerAttackingState : PlayerBaseState
 
     public override void Enter()
     {
-        stateMachine.CrossFadeAnimation (animationName, transitionDuration);
+        if (!stateMachine.IsOwner) return;
         Attack();
+        stateMachine.Player.ServerPlayAnim (
+            _attackAnimationHash,
+            transitionDuration
+        );
     }
 
     private void Attack()
@@ -45,6 +51,7 @@ public class PlayerAttackingState : PlayerBaseState
 
     public override void Tick(float deltaTime)
     {
+        if (!stateMachine.IsOwner) return;
         float normalizedTime =
             GetNormalizedTime(stateMachine.Animator, animationName);
 

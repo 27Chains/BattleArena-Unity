@@ -33,8 +33,10 @@ public class PlayerMovementState : PlayerBaseState
 
     public override void Enter()
     {
+        if (!stateMachine.IsOwner) return;
         stateMachine.InputReader.AttackEvent += OnAttack;
-        stateMachine.Animator.CrossFadeInFixedTime (
+
+        stateMachine.Player.ServerPlayAnim (
             MovementBlendTreeHash,
             crossFadeDuration
         );
@@ -52,6 +54,7 @@ public class PlayerMovementState : PlayerBaseState
 
     public override void Tick(float deltaTime)
     {
+        if (!stateMachine.IsOwner) return;
         BuildActions(out MoveData md);
         stateMachine.MovementData = md;
     }

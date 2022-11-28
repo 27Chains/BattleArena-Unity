@@ -39,11 +39,12 @@ public class PlayerStateMachine : NetworkBehaviour
     [field: SerializeField]
     public float RotationSpeed { get; private set; }
 
-    private State _currentState;
+    [SyncVar]
+    private int _currentStateIndex;
 
     private State[] _states = new State[2];
 
-    public State CurrentState => _currentState;
+    public State CurrentState => _states[_currentStateIndex];
 
     public MoveData MovementData;
 
@@ -53,25 +54,23 @@ public class PlayerStateMachine : NetworkBehaviour
         _states[(int) PlayerState.Attacking] = new PlayerAttackingState(this);
     }
 
-    private void Start()
+    public override void OnStartClient()
     {
-        SwitchState(PlayerState.Movement);
+        base.OnStartClient();
+        if (IsOwner) SwitchState(PlayerState.Movement);
     }
-
-    [SyncVar]
-    private int _currentStateIndex;
 
     private void Update()
     {
-        _currentState?.Tick(Time.deltaTime);
+        _states[_currentStateIndex]?.Tick(Time.deltaTime);
     }
 
     [ServerRpc(RunLocally = true)]
     public void SwitchState(PlayerState state)
     {
-        _currentState?.Exit();
-        _currentState = _states[(int) state];
-        _currentState?.Enter();
+        _states[_currentStateIndex]?.Exit();
+        _currentStateIndex = (int) state;
+        _states[_currentStateIndex]?.Enter();
     }
 
     public void MovementUpdate(
@@ -80,15 +79,7 @@ public class PlayerStateMachine : NetworkBehaviour
         bool replaying = false
     )
     {
-        _currentState?.MovementUpdate(moveData, asServer, replaying);
-    }
-
-    [ServerRpc(RunLocally = true)]
-    public void CrossFadeAnimation(
-        string animationName,
-        float crossFadeDuration
-    )
-    {
-        Animator.CrossFadeInFixedTime (animationName, crossFadeDuration);
+        _states[_currentStateIndex]?
+            .MovementUpdate(moveData, asServer, replaying);
     }
 }
