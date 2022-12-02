@@ -25,6 +25,9 @@ public class Weapon : ScriptableObject
     public float[] ComboAttackTime;
 
     [SerializeField]
+    private float knockbackForce;
+
+    [SerializeField]
     public float[] ComboAttackWindow;
 
     const string weaponName = "Weapon";
@@ -49,5 +52,10 @@ public class Weapon : ScriptableObject
     public float GetRange()
     {
         return weaponRange;
+    }
+
+    public float GetKnockbackForce()
+    {
+        return knockbackForce;
     }
 }

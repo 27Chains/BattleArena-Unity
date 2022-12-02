@@ -30,6 +30,9 @@ public class PlayerStateMachine : NetworkBehaviour
     public Player Player { get; private set; }
 
     [field: SerializeField]
+    public WeaponHandler WeaponHandler { get; private set; }
+
+    [field: SerializeField]
     public Fighter Fighter { get; private set; }
 
     [field: SerializeField]

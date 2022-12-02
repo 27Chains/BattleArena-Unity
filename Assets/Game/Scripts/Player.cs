@@ -25,9 +25,19 @@ public class Player : NetworkBehaviour
     {
         base.OnStartClient();
         if (!IsOwner) return;
+        InitializeHUD();
         CinemachineVirtualCamera virtualCamera =
             FindObjectOfType<CinemachineVirtualCamera>();
         virtualCamera.Follow = transform.GetChild(0).transform;
+    }
+
+    private void InitializeHUD()
+    {
+        if (IsOwner)
+        {
+            PlayerHUD hud = FindObjectOfType<PlayerHUD>();
+            hud.Initialize(this);
+        }
     }
 
     [Replicate]

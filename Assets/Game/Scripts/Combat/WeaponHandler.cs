@@ -21,16 +21,20 @@ public class WeaponHandler : NetworkBehaviour
         DisableWeapon();
     }
 
-    [ServerRpc]
     public void EnableWeapon()
     {
-        if (!unlocked) return;
-        weaponLogic.SetActive(true);
+        if (IsServer)
+        {
+            if (!unlocked) return;
+            weaponLogic.SetActive(true);
+        }
     }
 
-    [ServerRpc]
     public void DisableWeapon()
     {
-        weaponLogic.SetActive(false);
+        if (IsServer)
+        {
+            weaponLogic.SetActive(false);
+        }
     }
 }
