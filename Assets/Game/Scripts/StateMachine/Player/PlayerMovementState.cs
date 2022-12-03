@@ -44,7 +44,6 @@ public class PlayerMovementState : PlayerBaseState
 
     public override void Exit()
     {
-        if (!stateMachine.IsOwner) return;
         stateMachine.MovementData.Movement = Vector3.zero;
         stateMachine.InputReader.AttackEvent -= OnAttack;
     }
