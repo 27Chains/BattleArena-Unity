@@ -28,6 +28,13 @@ public class Fighter : NetworkBehaviour
         inputReader.ShowWeaponEvent += HandleSpawn;
     }
 
+    public override void OnStopNetwork()
+    {
+        base.OnStopNetwork();
+        if (!base.IsOwner) return;
+        DespawnWeapon (_spawnedWeapon);
+    }
+
     private void HandleSpawn()
     {
         if (_spawnedWeapon == null)
@@ -46,7 +53,7 @@ public class Fighter : NetworkBehaviour
     {
         GameObject weaponInstance =
             _currentWeapon.CreateInstance(_rightHandWeaponHolder);
-        Spawn (weaponInstance, Owner);
+        Spawn(weaponInstance, base.LocalConnection);
         SetSpawnedWeapon (weaponInstance, script);
     }
 

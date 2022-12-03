@@ -12,17 +12,15 @@ public class PlayerHUD : MonoBehaviour
     public void Initialize(Player player)
     {
         health = player.GetComponent<Health>();
-        UpdateHealth(0);
+        UpdateHealth(health.GetHealthPoints());
         health.OnTakeDamage += UpdateHealth;
     }
 
-    private void UpdateHealth(float damage)
+    private void UpdateHealth(float newHealth)
     {
         healthValue.text =
             System
                 .String
-                .Format("{0}/{1}",
-                health.GetHealthPoints(),
-                health.GetMaxHealthPoints());
+                .Format("{0}/{1}", newHealth, health.GetMaxHealthPoints());
     }
 }

@@ -27,20 +27,9 @@ public class Player : NetworkBehaviour
         base.OnStartClient();
         if (!IsOwner) return;
         InitializeHUD();
-        InitializeDamageSpawner();
         CinemachineVirtualCamera virtualCamera =
             FindObjectOfType<CinemachineVirtualCamera>();
         virtualCamera.Follow = transform.GetChild(0).transform;
-    }
-
-    private void InitializeDamageSpawner()
-    {
-        if (IsClient && IsOwner)
-        {
-            DamageTextSpawner damageTextSpawner =
-                FindObjectOfType<DamageTextSpawner>();
-            damageTextSpawner.Initialize(this);
-        }
     }
 
     private void InitializeHUD()

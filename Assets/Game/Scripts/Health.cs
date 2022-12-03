@@ -9,6 +9,9 @@ public class Health : NetworkBehaviour
     [SerializeField]
     private float maxHealth = 100;
 
+    [SerializeField]
+    private DamageTextSpawner damageTextSpawner;
+
     [SyncVar]
     private float health;
 
@@ -30,7 +33,8 @@ public class Health : NetworkBehaviour
         if (isDead) return;
 
         health = Mathf.Max(health - damage, 0f);
-        TargetOnTakeDamageEvent(base.Owner, damage);
+        TargetOnTakeDamageEvent(base.Owner, health);
+        ObserversDisplayDamage (damage);
 
         if (health == 0f)
         {
@@ -40,9 +44,18 @@ public class Health : NetworkBehaviour
     }
 
     [TargetRpc]
-    private void TargetOnTakeDamageEvent(NetworkConnection conn, float damage)
+    private void TargetOnTakeDamageEvent(
+        NetworkConnection conn,
+        float newHealth
+    )
     {
-        OnTakeDamage?.Invoke(damage);
+        OnTakeDamage?.Invoke(newHealth);
+    }
+
+    [ObserversRpc(IncludeOwner = false)]
+    private void ObserversDisplayDamage(float damage)
+    {
+        damageTextSpawner.SpawnDamageText (damage);
     }
 
     public float GetHealthPoints()

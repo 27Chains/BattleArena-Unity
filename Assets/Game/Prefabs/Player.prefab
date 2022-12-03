@@ -419,7 +419,6 @@ MonoBehaviour:
   - {fileID: 7221552144574065492}
   - {fileID: 9011259621309827166}
   - {fileID: 517001100811482853}
-  - {fileID: 3067228388177029859}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField:
   - {fileID: 5658287029356943702}
@@ -557,6 +556,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 2821410769227128586}
   _networkObjectCache: {fileID: 2821410769227128586}
   maxHealth: 100
+  damageTextSpawner: {fileID: 3067228388177029859}
   health: 70
   isDead: 0
 --- !u!1 &7307090560846358299
@@ -70040,8 +70040,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2c1b480eb70d4bd6a58c4f1f85b777c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 9
-  _addedNetworkObject: {fileID: 2821410769227128586}
-  _networkObjectCache: {fileID: 2821410769227128586}
   damageTextPrefab: {fileID: 846416597546821172, guid: 0ce409fe7210c41b4aa8a93db1c0bf55,
     type: 3}
