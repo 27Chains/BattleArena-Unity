@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using FishNet.Object;
 using UnityEngine;
 
-public class WeaponLogic : MonoBehaviour
+public class WeaponLogic : NetworkBehaviour
 {
     [SerializeField]
     private Collider myCollider;
@@ -23,7 +24,6 @@ public class WeaponLogic : MonoBehaviour
         alreadyCollidedWith.Add (other);
         if (other.TryGetComponent<Health>(out Health health))
         {
-            print("Hit " + other.name);
             health.TakeDamage(fighter.CurrentWeapon.GetDamage());
         }
         if (

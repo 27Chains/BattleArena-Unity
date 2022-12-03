@@ -12,11 +12,11 @@ public class PlayerHUD : MonoBehaviour
     public void Initialize(Player player)
     {
         health = player.GetComponent<Health>();
-        UpdateHealth();
+        UpdateHealth(0);
         health.OnTakeDamage += UpdateHealth;
     }
 
-    private void UpdateHealth()
+    private void UpdateHealth(float damage)
     {
         healthValue.text =
             System

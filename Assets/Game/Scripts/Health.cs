@@ -14,7 +14,7 @@ public class Health : NetworkBehaviour
 
     public bool isDead;
 
-    public event Action OnTakeDamage;
+    public event Action<float> OnTakeDamage;
 
     public event Action OnDie;
 
@@ -24,14 +24,13 @@ public class Health : NetworkBehaviour
         health = maxHealth;
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [Server]
     public void TakeDamage(float damage)
     {
         if (isDead) return;
 
         health = Mathf.Max(health - damage, 0f);
-        OnTakeDamage?.Invoke();
-        ObserverOnTakeDamageEvent(base.Owner);
+        TargetOnTakeDamageEvent(base.Owner, damage);
 
         if (health == 0f)
         {
@@ -41,9 +40,9 @@ public class Health : NetworkBehaviour
     }
 
     [TargetRpc]
-    private void ObserverOnTakeDamageEvent(NetworkConnection conn)
+    private void TargetOnTakeDamageEvent(NetworkConnection conn, float damage)
     {
-        OnTakeDamage?.Invoke();
+        OnTakeDamage?.Invoke(damage);
     }
 
     public float GetHealthPoints()
