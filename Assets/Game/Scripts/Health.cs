@@ -15,6 +15,7 @@ public class Health : NetworkBehaviour
     [SyncVar]
     private float health;
 
+    [SyncVar]
     public bool isDead;
 
     public event Action<float> OnTakeDamage;

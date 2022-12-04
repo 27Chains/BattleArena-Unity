@@ -1,5 +1,6 @@
 using Cinemachine;
 using FishNet.Component.Animating;
+using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
@@ -9,7 +10,9 @@ public enum PlayerState
     Movement,
     Attacking,
     ComboAttack1,
-    ComboAttack2
+    ComboAttack2,
+    Dead,
+    Impact
 }
 
 public class PlayerStateMachine : NetworkBehaviour
@@ -25,6 +28,9 @@ public class PlayerStateMachine : NetworkBehaviour
 
     [field: SerializeField]
     public NetworkAnimator NetworkAnimator { get; private set; }
+
+    [field: SerializeField]
+    public Health Health { get; private set; }
 
     [field: SerializeField]
     public Player Player { get; private set; }
@@ -47,11 +53,13 @@ public class PlayerStateMachine : NetworkBehaviour
     [field: SerializeField]
     public float RotationSpeed { get; private set; }
 
+    [field: SerializeField]
+    public float impactDuration { get; private set; }
+
     [SyncVar]
-    [HideInInspector]
     private int _currentStateIndex;
 
-    private State[] _states = new State[4];
+    private State[] _states = new State[6];
 
     [HideInInspector]
     public PlayerState CurrentState => (PlayerState) _currentStateIndex;
@@ -67,12 +75,21 @@ public class PlayerStateMachine : NetworkBehaviour
             new PlayerAttackingState(this, 1);
         _states[(int) PlayerState.ComboAttack2] =
             new PlayerAttackingState(this, 2);
+        _states[(int) PlayerState.Dead] = new PlayerDeadState(this);
+        _states[(int) PlayerState.Impact] = new PlayerImpactState(this);
     }
 
     public override void OnStartClient()
     {
         base.OnStartClient();
         if (IsOwner) SwitchState(PlayerState.Movement);
+    }
+
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        Health.OnDie += HandleDie;
+        Health.OnTakeDamage += HandleTakeDamage;
     }
 
     private void Update()
@@ -96,5 +113,24 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         _states[_currentStateIndex]?
             .MovementUpdate(moveData, asServer, replaying);
+    }
+
+    [Server]
+    private void HandleDie()
+    {
+        TargetChangeState(base.Owner, PlayerState.Dead);
+    }
+
+    [Server]
+    private void HandleTakeDamage(float damage)
+    {
+        if (Health.GetHealthPoints() <= 0) return;
+        TargetChangeState(base.Owner, PlayerState.Impact);
+    }
+
+    [TargetRpc]
+    private void TargetChangeState(NetworkConnection conn, PlayerState state)
+    {
+        SwitchState (state);
     }
 }

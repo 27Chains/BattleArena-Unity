@@ -362,6 +362,7 @@ MonoBehaviour:
   <CharacterController>k__BackingField: {fileID: 4867883370284613175}
   <Animator>k__BackingField: {fileID: 7221552144574065451}
   <NetworkAnimator>k__BackingField: {fileID: 9011259621309827166}
+  <Health>k__BackingField: {fileID: 1545543730047702234}
   <Player>k__BackingField: {fileID: 5629493944027198611}
   <WeaponHandler>k__BackingField: {fileID: 517001100811482853}
   <Fighter>k__BackingField: {fileID: 9012926577390345740}
@@ -369,6 +370,7 @@ MonoBehaviour:
   <RunningSpeed>k__BackingField: 6
   <WalkingSpeed>k__BackingField: 3
   <RotationSpeed>k__BackingField: 20
+  <impactDuration>k__BackingField: 1
   _currentStateIndex: 0
 --- !u!114 &4867883370284613170
 MonoBehaviour:
