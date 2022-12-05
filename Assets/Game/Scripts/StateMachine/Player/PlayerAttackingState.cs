@@ -34,6 +34,13 @@ public class PlayerAttackingState : PlayerBaseState
             stateMachine.WeaponHandler.UnlockWeapon();
         }
         if (!stateMachine.IsOwner) return;
+
+        stateMachine
+            .AudioSource
+            .PlayOneShot(stateMachine
+                .SwordWhooshClips[Random
+                    .Range(0, stateMachine.SwordWhooshClips.Length)]);
+
         stateMachine.InputReader.AttackEvent += TryComboAttack;
         Attack();
         int attackAnimationHash =

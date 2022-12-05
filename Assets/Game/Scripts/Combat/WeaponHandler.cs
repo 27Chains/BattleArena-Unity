@@ -21,6 +21,7 @@ public class WeaponHandler : NetworkBehaviour
         DisableWeapon();
     }
 
+    // called from animation event
     public void EnableWeapon()
     {
         if (IsServer)
@@ -30,6 +31,7 @@ public class WeaponHandler : NetworkBehaviour
         }
     }
 
+    // called from animation event
     public void DisableWeapon()
     {
         if (IsServer)

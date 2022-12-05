@@ -300,6 +300,7 @@ GameObject:
   - component: {fileID: 9012926577390345740}
   - component: {fileID: 5629493944027198611}
   - component: {fileID: 1545543730047702234}
+  - component: {fileID: 6866912613370808871}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -367,10 +368,43 @@ MonoBehaviour:
   <WeaponHandler>k__BackingField: {fileID: 517001100811482853}
   <Fighter>k__BackingField: {fileID: 9012926577390345740}
   <ForceReceiver>k__BackingField: {fileID: 4867883370284613170}
+  <AudioSource>k__BackingField: {fileID: 6866912613370808871}
   <RunningSpeed>k__BackingField: 6
   <WalkingSpeed>k__BackingField: 3
   <RotationSpeed>k__BackingField: 20
   <KnockbackDuration>k__BackingField: 1
+  <SwordWhooshClips>k__BackingField:
+  - {fileID: 8300000, guid: d49844beaca1aea46ba0263c2ba2d8ee, type: 3}
+  - {fileID: 8300000, guid: 7f290d5135e050f4a85c9c6845176986, type: 3}
+  - {fileID: 8300000, guid: 6b25b1828ce802b4192a13ce4c145d08, type: 3}
+  - {fileID: 8300000, guid: 2e7538035334742409b42e704f2fd19b, type: 3}
+  - {fileID: 8300000, guid: 2406b1bee7c7e2943896e22cf9cc3e3b, type: 3}
+  - {fileID: 8300000, guid: 2f4dea71fd0a950458a1cb13d54ee451, type: 3}
+  - {fileID: 8300000, guid: 49cec5d79eafec846a58b474f9087b7b, type: 3}
+  - {fileID: 8300000, guid: 3f89d2cf14a384446a391bb011f89323, type: 3}
+  - {fileID: 8300000, guid: ef709cc2e055eb14ca37eba785a6cb82, type: 3}
+  - {fileID: 8300000, guid: c930543087ce9fe4eabab805a13d5060, type: 3}
+  - {fileID: 8300000, guid: 38c9338e602c74349865ee5f6a69798e, type: 3}
+  - {fileID: 8300000, guid: 424df13cca9ad7b4ea514bada1571aeb, type: 3}
+  - {fileID: 8300000, guid: 03d9813667847964abfa2c935e866043, type: 3}
+  - {fileID: 8300000, guid: 5c588e770453afa48b74ba60d33c7eca, type: 3}
+  - {fileID: 8300000, guid: 34d14ffb407aad64784bef81264b68f9, type: 3}
+  - {fileID: 8300000, guid: 1618c0f3d93b3a14fa08320d226849b8, type: 3}
+  - {fileID: 8300000, guid: 3b5c450d902db41468ed44e4710cffc6, type: 3}
+  - {fileID: 8300000, guid: 396dfc51c8a6c4c44809f95d00792d71, type: 3}
+  - {fileID: 8300000, guid: 5fd064d8dc9545844bcadfd49bdde777, type: 3}
+  - {fileID: 8300000, guid: 078117744a130bb4aa61830b28d5f112, type: 3}
+  <SwordHitClips>k__BackingField:
+  - {fileID: 8300000, guid: b9ebcc216dcd029409b01cc940b2cfcd, type: 3}
+  - {fileID: 8300000, guid: 70f9517b7f65fa44f98db9b5804a810d, type: 3}
+  - {fileID: 8300000, guid: 4dfb12048d56175429151b6d7fab0b6f, type: 3}
+  - {fileID: 8300000, guid: 709d8d9fcad0005429119003be1506cd, type: 3}
+  - {fileID: 8300000, guid: edb7f58ea57afbb4fb68cdb11c8544cb, type: 3}
+  - {fileID: 8300000, guid: 2745582dbe142cd43941eb15f7ae67aa, type: 3}
+  - {fileID: 8300000, guid: 906d6b1bcedd6ce45ab9767853921169, type: 3}
+  - {fileID: 8300000, guid: 4893acdcc87fa5547ad1aed5d1fe1dd7, type: 3}
+  - {fileID: 8300000, guid: 8901d4b6c4e892e4cbaa7cefc913df1b, type: 3}
+  - {fileID: 8300000, guid: a82032efd228c384ab2b521e85e461a5, type: 3}
   _currentStateIndex: 0
 --- !u!114 &4867883370284613170
 MonoBehaviour:
@@ -561,6 +595,102 @@ MonoBehaviour:
   damageTextSpawner: {fileID: 3067228388177029859}
   health: 70
   isDead: 0
+--- !u!82 &6866912613370808871
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4867883370284613174}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7307090560846358299
 GameObject:
   m_ObjectHideFlags: 0
@@ -6775,6 +6905,7 @@ GameObject:
   - component: {fileID: 7221552144574065493}
   - component: {fileID: 9011259621309827166}
   - component: {fileID: 517001100811482853}
+  - component: {fileID: 3661350995973161289}
   m_Layer: 0
   m_Name: PlayerBody
   m_TagString: Untagged
@@ -6983,7 +7114,7 @@ MonoBehaviour:
   _animator: {fileID: 7221552144574065451}
   _smoothFloats: 1
   _interpolation: 2
-  _clientAuthoritative: 1
+  _clientAuthoritative: 0
   _sendToOwner: 0
 --- !u!114 &517001100811482853
 MonoBehaviour:
@@ -7001,6 +7132,18 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 2821410769227128586}
   _networkObjectCache: {fileID: 2821410769227128586}
   weaponLogic: {fileID: 1306143730311191538}
+--- !u!114 &3661350995973161289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7307158167361930167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 060961bd7f3a444a49299bd9f0ab4ab6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7307158497311865085
 GameObject:
   m_ObjectHideFlags: 0

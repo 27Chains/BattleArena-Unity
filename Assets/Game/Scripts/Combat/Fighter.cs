@@ -28,22 +28,12 @@ public class Fighter : NetworkBehaviour
         inputReader.ShowWeaponEvent += HandleSpawn;
     }
 
-    public override void OnStopNetwork()
-    {
-        base.OnStopNetwork();
-        if (!base.IsOwner) return;
-        DespawnWeapon (_spawnedWeapon);
-    }
-
     private void HandleSpawn()
     {
+        if (!IsOwner) return;
         if (_spawnedWeapon == null)
         {
             SpawnWeapon(this);
-        }
-        else
-        {
-            DespawnWeapon (_spawnedWeapon);
         }
     }
 

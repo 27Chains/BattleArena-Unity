@@ -45,6 +45,9 @@ public class PlayerStateMachine : NetworkBehaviour
     public ForceReceiver ForceReceiver { get; private set; }
 
     [field: SerializeField]
+    public AudioSource AudioSource { get; private set; }
+
+    [field: SerializeField]
     public float RunningSpeed { get; private set; }
 
     [field: SerializeField]
@@ -55,6 +58,12 @@ public class PlayerStateMachine : NetworkBehaviour
 
     [field: SerializeField]
     public float KnockbackDuration { get; private set; }
+
+    [field: SerializeField]
+    public AudioClip[] SwordWhooshClips { get; private set; }
+
+    [field: SerializeField]
+    public AudioClip[] SwordHitClips { get; private set; }
 
     [SyncVar]
     private int _currentStateIndex;

@@ -16,6 +16,11 @@ public class PlayerImpactState : PlayerBaseState
     {
         if (!stateMachine.IsOwner) return;
         stateMachine.Player.ServerPlayAnim (ImpactAnimHash, crossFadeDuration);
+        stateMachine
+            .AudioSource
+            .PlayOneShot(stateMachine
+                .SwordHitClips[Random
+                    .Range(0, stateMachine.SwordHitClips.Length)]);
     }
 
     public override void Exit()
