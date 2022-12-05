@@ -26,18 +26,5 @@ public class WeaponLogic : NetworkBehaviour
         {
             health.TakeDamage(fighter.CurrentWeapon.GetDamage());
         }
-        if (
-            other
-                .TryGetComponent<ForceReceiver>(out ForceReceiver forceReceiver)
-        )
-        {
-            Vector3 direction =
-                (other.transform.position - myCollider.transform.position)
-                    .normalized;
-
-            forceReceiver
-                .AddForce(direction *
-                fighter.CurrentWeapon.GetKnockbackForce());
-        }
     }
 }

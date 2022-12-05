@@ -29,8 +29,11 @@ public class PlayerAttackingState : PlayerBaseState
 
     public override void Enter()
     {
+        if (stateMachine.IsServer)
+        {
+            stateMachine.WeaponHandler.UnlockWeapon();
+        }
         if (!stateMachine.IsOwner) return;
-        stateMachine.WeaponHandler.UnlockWeapon();
         stateMachine.InputReader.AttackEvent += TryComboAttack;
         Attack();
         int attackAnimationHash =
@@ -56,10 +59,13 @@ public class PlayerAttackingState : PlayerBaseState
 
     public override void Exit()
     {
+        if (stateMachine.IsServer)
+        {
+            stateMachine.WeaponHandler.LockWeapon();
+        }
         if (!stateMachine.IsOwner) return;
         alreadyAppliedForce = false;
         comboFailed = false;
-        stateMachine.WeaponHandler.LockWeapon();
         stateMachine.InputReader.AttackEvent -= TryComboAttack;
     }
 

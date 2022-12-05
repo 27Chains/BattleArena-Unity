@@ -56,9 +56,6 @@ public class PlayerStateMachine : NetworkBehaviour
     [field: SerializeField]
     public float KnockbackDuration { get; private set; }
 
-    [field: SerializeField]
-    public float impactDuration { get; private set; }
-
     [SyncVar]
     private int _currentStateIndex;
 
@@ -85,12 +82,8 @@ public class PlayerStateMachine : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        if (IsOwner) SwitchState(PlayerState.Movement);
-    }
-
-    public override void OnStartServer()
-    {
-        base.OnStartServer();
+        if (!IsOwner) return;
+        SwitchState(PlayerState.Movement);
         Health.OnDie += HandleDie;
         Health.OnTakeDamage += HandleTakeDamage;
     }
@@ -118,22 +111,14 @@ public class PlayerStateMachine : NetworkBehaviour
             .MovementUpdate(moveData, asServer, replaying);
     }
 
-    [Server]
     private void HandleDie()
     {
-        TargetChangeState(base.Owner, PlayerState.Dead);
+        SwitchState(PlayerState.Dead);
     }
 
-    [Server]
     private void HandleTakeDamage(float damage)
     {
         if (Health.GetHealthPoints() <= 0) return;
-        TargetChangeState(base.Owner, PlayerState.Impact);
-    }
-
-    [TargetRpc]
-    private void TargetChangeState(NetworkConnection conn, PlayerState state)
-    {
-        SwitchState (state);
+        SwitchState(PlayerState.Impact);
     }
 }

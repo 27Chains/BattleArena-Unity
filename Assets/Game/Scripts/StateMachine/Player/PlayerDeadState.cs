@@ -15,11 +15,9 @@ public class PlayerDeadState : PlayerBaseState
     {
         if (!stateMachine.IsOwner) return;
         stateMachine.Player.ServerPlayAnim (DeadHash, crossFadeDuration);
-        stateMachine.WeaponHandler.LockWeapon();
 
         // TODO looks like character controller is still a valid collider after setting it to false, preferably we should disable it
         // TODO possibly character controller is only disabled on the dead player and the server but not on observers
-
         stateMachine.CharacterController.enabled = false;
     }
 

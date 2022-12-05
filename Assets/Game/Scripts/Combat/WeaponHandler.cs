@@ -8,13 +8,13 @@ public class WeaponHandler : NetworkBehaviour
 
     private bool unlocked;
 
-    [ServerRpc]
+    [Server]
     public void UnlockWeapon()
     {
         unlocked = true;
     }
 
-    [ServerRpc]
+    [Server]
     public void LockWeapon()
     {
         unlocked = false;

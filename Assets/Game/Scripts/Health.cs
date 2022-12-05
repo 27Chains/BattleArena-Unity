@@ -40,7 +40,7 @@ public class Health : NetworkBehaviour
         if (health == 0f)
         {
             isDead = true;
-            OnDie?.Invoke();
+            TargetOnDieEvent(base.Owner);
         }
     }
 
@@ -51,6 +51,12 @@ public class Health : NetworkBehaviour
     )
     {
         OnTakeDamage?.Invoke(newHealth);
+    }
+
+    [TargetRpc]
+    private void TargetOnDieEvent(NetworkConnection conn)
+    {
+        OnDie?.Invoke();
     }
 
     [ObserversRpc(IncludeOwner = false)]
