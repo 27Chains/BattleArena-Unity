@@ -54,6 +54,9 @@ public class PlayerStateMachine : NetworkBehaviour
     public float RotationSpeed { get; private set; }
 
     [field: SerializeField]
+    public float KnockbackDuration { get; private set; }
+
+    [field: SerializeField]
     public float impactDuration { get; private set; }
 
     [SyncVar]

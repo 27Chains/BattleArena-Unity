@@ -16,6 +16,9 @@ public class Weapon : ScriptableObject
     private float weaponRange;
 
     [SerializeField]
+    private float knockbackForce;
+
+    [SerializeField]
     private GameObject equippedPrefab;
 
     [SerializeField]
@@ -23,9 +26,6 @@ public class Weapon : ScriptableObject
 
     [SerializeField]
     public float[] ComboAttackTime;
-
-    [SerializeField]
-    private float knockbackForce;
 
     [SerializeField]
     public float[] ComboAttackWindow;

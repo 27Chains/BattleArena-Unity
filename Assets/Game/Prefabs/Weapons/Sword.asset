@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponDamage: 10
   weaponRange: 2
+  knockbackForce: 10
   equippedPrefab: {fileID: 7850953861612825553, guid: 257814eb0084d4a6dbbee6dd679ec270,
     type: 3}
   AttackAnimations:

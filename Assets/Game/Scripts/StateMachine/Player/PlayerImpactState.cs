@@ -1,22 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerImpactState : PlayerBaseState
 {
+    private int ImpactAnimHash = Animator.StringToHash("DamageTaken");
+
+    private float duration;
+
     public PlayerImpactState(PlayerStateMachine stateMachine) :
         base(stateMachine)
     {
+        duration = stateMachine.KnockbackDuration;
     }
 
     public override void Enter()
     {
         if (!stateMachine.IsOwner) return;
-        Debug.Log("PlayerImpactState");
+        stateMachine.Player.ServerPlayAnim (ImpactAnimHash, crossFadeDuration);
     }
 
     public override void Exit()
     {
+        duration = stateMachine.KnockbackDuration;
     }
 
     public override void MovementUpdate(
@@ -25,9 +29,16 @@ public class PlayerImpactState : PlayerBaseState
         bool replaying = false
     )
     {
+        Move((float) stateMachine.Player.TimeManager.TickDelta);
     }
 
     public override void Tick(float deltaTime)
     {
+        if (!stateMachine.IsOwner) return;
+        duration -= deltaTime;
+        if (duration <= 0)
+        {
+            stateMachine.SwitchState(PlayerState.Movement);
+        }
     }
 }

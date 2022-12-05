@@ -370,6 +370,7 @@ MonoBehaviour:
   <RunningSpeed>k__BackingField: 6
   <WalkingSpeed>k__BackingField: 3
   <RotationSpeed>k__BackingField: 20
+  <KnockbackDuration>k__BackingField: 1
   <impactDuration>k__BackingField: 1
   _currentStateIndex: 0
 --- !u!114 &4867883370284613170
