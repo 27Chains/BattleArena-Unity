@@ -373,6 +373,7 @@ MonoBehaviour:
   <WalkingSpeed>k__BackingField: 3
   <RotationSpeed>k__BackingField: 20
   <KnockbackDuration>k__BackingField: 1
+  <DodgeForce>k__BackingField: 15
   <SwordWhooshClips>k__BackingField:
   - {fileID: 8300000, guid: d49844beaca1aea46ba0263c2ba2d8ee, type: 3}
   - {fileID: 8300000, guid: 7f290d5135e050f4a85c9c6845176986, type: 3}
@@ -395,16 +396,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5fd064d8dc9545844bcadfd49bdde777, type: 3}
   - {fileID: 8300000, guid: 078117744a130bb4aa61830b28d5f112, type: 3}
   <SwordHitClips>k__BackingField:
-  - {fileID: 8300000, guid: b9ebcc216dcd029409b01cc940b2cfcd, type: 3}
-  - {fileID: 8300000, guid: 70f9517b7f65fa44f98db9b5804a810d, type: 3}
-  - {fileID: 8300000, guid: 4dfb12048d56175429151b6d7fab0b6f, type: 3}
-  - {fileID: 8300000, guid: 709d8d9fcad0005429119003be1506cd, type: 3}
-  - {fileID: 8300000, guid: edb7f58ea57afbb4fb68cdb11c8544cb, type: 3}
-  - {fileID: 8300000, guid: 2745582dbe142cd43941eb15f7ae67aa, type: 3}
-  - {fileID: 8300000, guid: 906d6b1bcedd6ce45ab9767853921169, type: 3}
-  - {fileID: 8300000, guid: 4893acdcc87fa5547ad1aed5d1fe1dd7, type: 3}
-  - {fileID: 8300000, guid: 8901d4b6c4e892e4cbaa7cefc913df1b, type: 3}
-  - {fileID: 8300000, guid: a82032efd228c384ab2b521e85e461a5, type: 3}
+  - {fileID: 8300000, guid: 2005cb29115fb4cd0808afe772d752dc, type: 3}
   _currentStateIndex: 0
 --- !u!114 &4867883370284613170
 MonoBehaviour:
@@ -6920,7 +6912,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7307158167361930167}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

@@ -12,7 +12,11 @@ public class InputReader : MonoBehaviour, PlayerControls.IPlayerActions
 
     public event Action ShowWeaponEvent;
 
-    public bool isRunning { get; private set; }
+    public event Action DodgeEvent;
+
+    public bool IsRunning { get; private set; }
+
+    public bool IsBlocking { get; private set; }
 
     private void Start()
     {
@@ -36,12 +40,17 @@ public class InputReader : MonoBehaviour, PlayerControls.IPlayerActions
     {
         if (context.performed)
         {
-            isRunning = true;
+            IsRunning = true;
         }
         else if (context.canceled)
         {
-            isRunning = false;
+            IsRunning = false;
         }
+    }
+
+    public Vector3 GetDirection()
+    {
+        return new Vector3(MovementValue.x, 0, MovementValue.y);
     }
 
     public void OnAttack(InputAction.CallbackContext context)
@@ -57,6 +66,26 @@ public class InputReader : MonoBehaviour, PlayerControls.IPlayerActions
         if (context.performed)
         {
             ShowWeaponEvent?.Invoke();
+        }
+    }
+
+    public void OnRoll(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            DodgeEvent?.Invoke();
+        }
+    }
+
+    public void OnBlock(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            IsBlocking = true;
+        }
+        else if (context.canceled)
+        {
+            IsBlocking = false;
         }
     }
 }

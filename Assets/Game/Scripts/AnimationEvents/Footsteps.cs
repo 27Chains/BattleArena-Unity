@@ -18,7 +18,7 @@ public class Footsteps : NetworkBehaviour
     public void FootR()
     {
         if (!IsOwner) return;
-        if (stateMachine.InputReader.isRunning)
+        if (stateMachine.InputReader.IsRunning)
         {
             audioSource
                 .PlayOneShot(footstepRunningClips[Random
@@ -35,7 +35,7 @@ public class Footsteps : NetworkBehaviour
     public void FootL()
     {
         if (!IsOwner) return;
-        if (stateMachine.InputReader.isRunning)
+        if (stateMachine.InputReader.IsRunning)
         {
             audioSource
                 .PlayOneShot(footstepRunningClips[Random

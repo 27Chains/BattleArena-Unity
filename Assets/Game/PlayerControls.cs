@@ -62,6 +62,24 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Roll"",
+                    ""type"": ""Button"",
+                    ""id"": ""e7642c1a-b8df-45b2-8221-2939cb167463"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Block"",
+                    ""type"": ""Button"",
+                    ""id"": ""c15de5d0-c573-45f5-a7cd-c7cdfbac41aa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -207,6 +225,28 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""ShowWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ea6b511f-b984-4338-8277-7702e4baddae"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse and Keyboard"",
+                    ""action"": ""Roll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""541acb08-6b62-4b82-a424-9c26bccdcfef"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse and Keyboard"",
+                    ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -236,6 +276,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_ShowWeapon = m_Player.FindAction("ShowWeapon", throwIfNotFound: true);
+        m_Player_Roll = m_Player.FindAction("Roll", throwIfNotFound: true);
+        m_Player_Block = m_Player.FindAction("Block", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -299,6 +341,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Run;
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_ShowWeapon;
+    private readonly InputAction m_Player_Roll;
+    private readonly InputAction m_Player_Block;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -307,6 +351,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Run => m_Wrapper.m_Player_Run;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @ShowWeapon => m_Wrapper.m_Player_ShowWeapon;
+        public InputAction @Roll => m_Wrapper.m_Player_Roll;
+        public InputAction @Block => m_Wrapper.m_Player_Block;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -328,6 +374,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ShowWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowWeapon;
                 @ShowWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowWeapon;
                 @ShowWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowWeapon;
+                @Roll.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRoll;
+                @Roll.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRoll;
+                @Roll.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRoll;
+                @Block.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
+                @Block.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
+                @Block.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -344,6 +396,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ShowWeapon.started += instance.OnShowWeapon;
                 @ShowWeapon.performed += instance.OnShowWeapon;
                 @ShowWeapon.canceled += instance.OnShowWeapon;
+                @Roll.started += instance.OnRoll;
+                @Roll.performed += instance.OnRoll;
+                @Roll.canceled += instance.OnRoll;
+                @Block.started += instance.OnBlock;
+                @Block.performed += instance.OnBlock;
+                @Block.canceled += instance.OnBlock;
             }
         }
     }
@@ -363,5 +421,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnRun(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnShowWeapon(InputAction.CallbackContext context);
+        void OnRoll(InputAction.CallbackContext context);
+        void OnBlock(InputAction.CallbackContext context);
     }
 }

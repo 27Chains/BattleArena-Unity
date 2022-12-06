@@ -12,7 +12,9 @@ public enum PlayerState
     ComboAttack1,
     ComboAttack2,
     Dead,
-    Impact
+    Impact,
+    Dodge,
+    Block
 }
 
 public class PlayerStateMachine : NetworkBehaviour
@@ -60,6 +62,9 @@ public class PlayerStateMachine : NetworkBehaviour
     public float KnockbackDuration { get; private set; }
 
     [field: SerializeField]
+    public float DodgeForce { get; private set; }
+
+    [field: SerializeField]
     public AudioClip[] SwordWhooshClips { get; private set; }
 
     [field: SerializeField]
@@ -68,7 +73,7 @@ public class PlayerStateMachine : NetworkBehaviour
     [SyncVar]
     private int _currentStateIndex;
 
-    private State[] _states = new State[6];
+    private State[] _states = new State[8];
 
     [HideInInspector]
     public PlayerState CurrentState => (PlayerState) _currentStateIndex;
@@ -86,6 +91,8 @@ public class PlayerStateMachine : NetworkBehaviour
             new PlayerAttackingState(this, 2);
         _states[(int) PlayerState.Dead] = new PlayerDeadState(this);
         _states[(int) PlayerState.Impact] = new PlayerImpactState(this);
+        _states[(int) PlayerState.Dodge] = new PlayerDodgeState(this);
+        _states[(int) PlayerState.Block] = new PlayerBlockingState(this);
     }
 
     public override void OnStartClient()

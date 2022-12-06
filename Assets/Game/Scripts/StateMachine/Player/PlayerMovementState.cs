@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public struct MoveData
@@ -35,6 +36,7 @@ public class PlayerMovementState : PlayerBaseState
     {
         if (!stateMachine.IsOwner) return;
         stateMachine.InputReader.AttackEvent += OnAttack;
+        stateMachine.InputReader.DodgeEvent += OnDodge;
 
         stateMachine.Player.ServerPlayAnim (
             MovementBlendTreeHash,
@@ -42,10 +44,19 @@ public class PlayerMovementState : PlayerBaseState
         );
     }
 
+    private void OnDodge()
+    {
+        if (stateMachine.InputReader.GetDirection() != Vector3.zero)
+        {
+            stateMachine.SwitchState(PlayerState.Dodge);
+        }
+    }
+
     public override void Exit()
     {
         stateMachine.MovementData.Movement = Vector3.zero;
         stateMachine.InputReader.AttackEvent -= OnAttack;
+        stateMachine.InputReader.DodgeEvent -= OnDodge;
     }
 
     private void OnAttack()
@@ -58,6 +69,10 @@ public class PlayerMovementState : PlayerBaseState
         if (!stateMachine.IsOwner) return;
         BuildActions(out MoveData md);
         stateMachine.MovementData = md;
+        if (stateMachine.InputReader.IsBlocking)
+        {
+            stateMachine.SwitchState(PlayerState.Block);
+        }
     }
 
     private void FaceMovementDirection(Vector3 movement, float deltaTime)
@@ -73,11 +88,11 @@ public class PlayerMovementState : PlayerBaseState
     {
         moveData = default;
         float MovementSpeed =
-            stateMachine.InputReader.isRunning
+            stateMachine.InputReader.IsRunning
                 ? stateMachine.RunningSpeed
                 : stateMachine.WalkingSpeed;
         moveData.Movement = CalculateMovement() * MovementSpeed;
-        moveData.IsRunning = stateMachine.InputReader.isRunning;
+        moveData.IsRunning = stateMachine.InputReader.IsRunning;
     }
 
     private Vector3 CalculateMovement()

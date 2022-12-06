@@ -76,9 +76,13 @@ public class Player : NetworkBehaviour
     }
 
     [ServerRpc(RunLocally = true)]
-    public void ServerApplyForce(Vector3 direction, float force)
+    public void ServerApplyForce(
+        Vector3 direction,
+        float force,
+        float drag = 0.1f
+    )
     {
-        _stateMachine.ForceReceiver.AddForce(direction * force);
+        _stateMachine.ForceReceiver.AddForce(direction * force, drag);
     }
 
     [Reconcile]
