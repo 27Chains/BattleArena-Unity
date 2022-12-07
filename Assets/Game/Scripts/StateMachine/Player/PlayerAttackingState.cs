@@ -136,7 +136,9 @@ public class PlayerAttackingState : PlayerBaseState
         alreadyAppliedForce = true;
         stateMachine
             .Player
-            .ServerApplyForce(stateMachine.transform.forward, weaponForce);
+            .ServerApplyForce(stateMachine.transform.forward,
+            weaponForce,
+            ForceType.Smooth);
     }
 
     // TODO thinking this could be done better

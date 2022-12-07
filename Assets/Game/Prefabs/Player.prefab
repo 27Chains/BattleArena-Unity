@@ -373,7 +373,7 @@ MonoBehaviour:
   <WalkingSpeed>k__BackingField: 3
   <RotationSpeed>k__BackingField: 20
   <KnockbackDuration>k__BackingField: 1
-  <DodgeForce>k__BackingField: 15
+  <DodgeForce>k__BackingField: 10
   <SwordWhooshClips>k__BackingField:
   - {fileID: 8300000, guid: d49844beaca1aea46ba0263c2ba2d8ee, type: 3}
   - {fileID: 8300000, guid: 7f290d5135e050f4a85c9c6845176986, type: 3}

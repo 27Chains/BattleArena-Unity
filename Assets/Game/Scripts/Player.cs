@@ -79,10 +79,13 @@ public class Player : NetworkBehaviour
     public void ServerApplyForce(
         Vector3 direction,
         float force,
-        float drag = 0.1f
+        ForceType forceType,
+        float duration = 0f
     )
     {
-        _stateMachine.ForceReceiver.AddForce(direction * force, drag);
+        _stateMachine
+            .ForceReceiver
+            .AddForce(direction * force, forceType, duration);
     }
 
     [Reconcile]

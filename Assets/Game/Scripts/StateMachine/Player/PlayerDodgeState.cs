@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerDodgeState : PlayerBaseState
@@ -7,6 +5,8 @@ public class PlayerDodgeState : PlayerBaseState
     private int DodgeAnimHash = Animator.StringToHash("Dodge");
 
     private Vector3 dodgeDirection;
+
+    private float dodgeDuration = 0.75f;
 
     public PlayerDodgeState(PlayerStateMachine stateMachine) :
         base(stateMachine)
@@ -22,7 +22,10 @@ public class PlayerDodgeState : PlayerBaseState
         stateMachine.Player.ServerRotatePlayer (direction);
         stateMachine
             .Player
-            .ServerApplyForce(direction, stateMachine.DodgeForce, 0.1f);
+            .ServerApplyForce(direction,
+            stateMachine.DodgeForce,
+            ForceType.Linear,
+            dodgeDuration);
     }
 
     public override void Exit()
