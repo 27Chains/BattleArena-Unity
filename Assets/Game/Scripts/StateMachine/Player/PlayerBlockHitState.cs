@@ -20,6 +20,9 @@ public class PlayerBlockHitState : PlayerBaseState
     public override void Enter()
     {
         if (!stateMachine.IsOwner) return;
+        stateMachine
+            .Player
+            .ServerRotatePlayer(stateMachine.IncomingHitDirection);
         stateMachine.Player.ServerPlayAnim (
             BlockHitAnimHash,
             crossFadeDuration

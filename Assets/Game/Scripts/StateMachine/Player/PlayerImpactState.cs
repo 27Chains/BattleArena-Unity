@@ -15,6 +15,15 @@ public class PlayerImpactState : PlayerBaseState
     public override void Enter()
     {
         if (!stateMachine.IsOwner) return;
+
+        //  rotate player to face the direction of the incoming hit
+        Vector3 direction =
+            (
+            stateMachine.IncomingHitDirection - stateMachine.transform.position
+            ).normalized;
+
+        stateMachine.Player.ServerRotatePlayer (direction);
+
         stateMachine.Player.ServerPlayAnim (ImpactAnimHash, crossFadeDuration);
         stateMachine
             .AudioSource

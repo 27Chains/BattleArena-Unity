@@ -87,6 +87,9 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public MoveData MovementData;
 
+    [HideInInspector]
+    public Vector3 IncomingHitDirection;
+
     private void Awake()
     {
         _states[(int) PlayerState.Movement] = new PlayerMovementState(this);
@@ -140,9 +143,10 @@ public class PlayerStateMachine : NetworkBehaviour
         SwitchState(PlayerState.Dead);
     }
 
-    private void HandleTakeDamage(float damage)
+    private void HandleTakeDamage(float damage, Vector3 incomingDirection)
     {
         if (Health.GetHealthPoints() <= 0) return;
+        IncomingHitDirection = incomingDirection;
 
         if (BlockingCollider.IsBlocking)
         {

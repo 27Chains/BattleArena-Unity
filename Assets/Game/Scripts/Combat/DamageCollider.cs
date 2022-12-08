@@ -33,15 +33,20 @@ public class DamageCollider : NetworkBehaviour
             {
                 float blockDamageReduction =
                     fighter.CurrentShield.GetPhysicalDamageAbsorbtion();
+
                 currentWeaponDamage -=
                     (currentWeaponDamage * blockDamageReduction) / 100;
 
-                health.TakeDamage (currentWeaponDamage);
+                health
+                    .TakeDamage(currentWeaponDamage,
+                    fighter.transform.position);
                 return;
             }
             if (health != null)
             {
-                health.TakeDamage (currentWeaponDamage);
+                health
+                    .TakeDamage(currentWeaponDamage,
+                    fighter.transform.position);
             }
         }
     }

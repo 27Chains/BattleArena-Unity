@@ -16,7 +16,10 @@ public class PlayerHUD : MonoBehaviour
         health.OnTakeDamage += UpdateHealth;
     }
 
-    private void UpdateHealth(float newHealth)
+    private void UpdateHealth(
+        float newHealth,
+        Vector3 incomingDirection = default
+    )
     {
         healthValue.text =
             System

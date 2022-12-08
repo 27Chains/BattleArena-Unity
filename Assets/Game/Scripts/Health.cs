@@ -18,7 +18,7 @@ public class Health : NetworkBehaviour
     [SyncVar]
     public bool isDead;
 
-    public event Action<float> OnTakeDamage;
+    public event Action<float, Vector3> OnTakeDamage;
 
     public event Action OnDie;
 
@@ -29,12 +29,12 @@ public class Health : NetworkBehaviour
     }
 
     [Server]
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Vector3 incomingDirection)
     {
         if (isDead) return;
 
         health = Mathf.Max(health - damage, 0f);
-        TargetOnTakeDamageEvent(base.Owner, health);
+        TargetOnTakeDamageEvent(base.Owner, health, incomingDirection);
         ObserversDisplayDamage (damage);
 
         if (health == 0f)
@@ -47,10 +47,11 @@ public class Health : NetworkBehaviour
     [TargetRpc]
     private void TargetOnTakeDamageEvent(
         NetworkConnection conn,
-        float newHealth
+        float newHealth,
+        Vector3 incomingDirection
     )
     {
-        OnTakeDamage?.Invoke(newHealth);
+        OnTakeDamage?.Invoke(newHealth, incomingDirection);
     }
 
     [TargetRpc]
