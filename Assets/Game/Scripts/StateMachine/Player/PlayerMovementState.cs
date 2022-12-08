@@ -103,7 +103,7 @@ public class PlayerMovementState : PlayerBaseState
         movement.y = 0;
         movement.z = stateMachine.InputReader.MovementValue.y;
 
-        return movement;
+        return movement.normalized;
     }
 
     public override void MovementUpdate(

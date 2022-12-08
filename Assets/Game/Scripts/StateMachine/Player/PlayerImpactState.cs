@@ -19,8 +19,8 @@ public class PlayerImpactState : PlayerBaseState
         stateMachine
             .AudioSource
             .PlayOneShot(stateMachine
-                .SwordHitClips[Random
-                    .Range(0, stateMachine.SwordHitClips.Length)]);
+                .SwordHitFleshClips[Random
+                    .Range(0, stateMachine.SwordHitFleshClips.Length)]);
     }
 
     public override void Exit()

@@ -2,12 +2,12 @@ using UnityEngine;
 
 [
     CreateAssetMenu(
-        fileName = "Weapon",
+        fileName = "WeaponSO",
         menuName = "Weapons/Make New Weapon",
         order = 0)
 ]
 // TODO what should this component include? if item is upgradeable how to approach it, do we need to make a new weapon or just upgrade the existing one?
-public class Weapon : ScriptableObject
+public class WeaponSO : ScriptableObject
 {
     [SerializeField]
     private float weaponDamage;

@@ -14,7 +14,8 @@ public enum PlayerState
     Dead,
     Impact,
     Dodge,
-    Block
+    Block,
+    BlockHit
 }
 
 public class PlayerStateMachine : NetworkBehaviour
@@ -39,6 +40,9 @@ public class PlayerStateMachine : NetworkBehaviour
 
     [field: SerializeField]
     public WeaponHandler WeaponHandler { get; private set; }
+
+    [field: SerializeField]
+    public BlockingCollider BlockingCollider { get; private set; }
 
     [field: SerializeField]
     public Fighter Fighter { get; private set; }
@@ -68,12 +72,15 @@ public class PlayerStateMachine : NetworkBehaviour
     public AudioClip[] SwordWhooshClips { get; private set; }
 
     [field: SerializeField]
-    public AudioClip[] SwordHitClips { get; private set; }
+    public AudioClip[] SwordHitFleshClips { get; private set; }
+
+    [field: SerializeField]
+    public AudioClip[] SwordHitShieldClips { get; private set; }
 
     [SyncVar]
     private int _currentStateIndex;
 
-    private State[] _states = new State[8];
+    private State[] _states = new State[9];
 
     [HideInInspector]
     public PlayerState CurrentState => (PlayerState) _currentStateIndex;
@@ -93,6 +100,7 @@ public class PlayerStateMachine : NetworkBehaviour
         _states[(int) PlayerState.Impact] = new PlayerImpactState(this);
         _states[(int) PlayerState.Dodge] = new PlayerDodgeState(this);
         _states[(int) PlayerState.Block] = new PlayerBlockingState(this);
+        _states[(int) PlayerState.BlockHit] = new PlayerBlockHitState(this);
     }
 
     public override void OnStartClient()
@@ -135,6 +143,12 @@ public class PlayerStateMachine : NetworkBehaviour
     private void HandleTakeDamage(float damage)
     {
         if (Health.GetHealthPoints() <= 0) return;
+
+        if (BlockingCollider.IsBlocking)
+        {
+            SwitchState(PlayerState.BlockHit);
+            return;
+        }
         SwitchState(PlayerState.Impact);
     }
 }

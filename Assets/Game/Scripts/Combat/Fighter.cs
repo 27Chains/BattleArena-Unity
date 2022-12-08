@@ -7,15 +7,26 @@ public class Fighter : NetworkBehaviour
     private Transform _rightHandWeaponHolder = null;
 
     [SerializeField]
+    private Transform _leftHandWeaponHolder = null;
+
+    [SerializeField]
     private InputReader inputReader;
 
     [SerializeField]
-    private Weapon _currentWeapon = null;
+    private WeaponSO _currentWeapon = null;
+
+    [SerializeField]
+    private ShieldSO _currentShield = null;
 
     [HideInInspector]
     public GameObject _spawnedWeapon = null;
 
-    public Weapon CurrentWeapon => _currentWeapon;
+    [HideInInspector]
+    public GameObject _spawnedShield = null;
+
+    public WeaponSO CurrentWeapon => _currentWeapon;
+
+    public ShieldSO CurrentShield => _currentShield;
 
     public override void OnStartClient()
     {
@@ -33,30 +44,34 @@ public class Fighter : NetworkBehaviour
         if (!IsOwner) return;
         if (_spawnedWeapon == null)
         {
-            SpawnWeapon(this);
+            SpawnEquipment(this);
         }
     }
 
     // TODO in the future the weapons will spawn based on the players possession after we load from the database
     [ServerRpc]
-    public void SpawnWeapon(Fighter script)
+    public void SpawnEquipment(Fighter script)
     {
         GameObject weaponInstance =
             _currentWeapon.CreateInstance(_rightHandWeaponHolder);
+
+        GameObject shieldInstance =
+            _currentShield.CreateInstance(_leftHandWeaponHolder);
+
         Spawn(weaponInstance, base.LocalConnection);
-        SetSpawnedWeapon (weaponInstance, script);
+        Spawn(shieldInstance, base.LocalConnection);
+
+        SetSpawnedItems (weaponInstance, shieldInstance, script);
     }
 
     [ObserversRpc]
-    public void SetSpawnedWeapon(GameObject spawnedWeapon, Fighter script)
+    public void SetSpawnedItems(
+        GameObject spawnedWeapon,
+        GameObject shieldInstance,
+        Fighter script
+    )
     {
         script._spawnedWeapon = spawnedWeapon;
-    }
-
-    // TODO just for testing, user should not despawn weapon on request but need to be able to sheath it
-    [ServerRpc]
-    public void DespawnWeapon(GameObject weapon)
-    {
-        ServerManager.Despawn (weapon);
+        script._spawnedShield = shieldInstance;
     }
 }

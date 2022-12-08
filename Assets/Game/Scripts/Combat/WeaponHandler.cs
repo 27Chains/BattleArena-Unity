@@ -4,7 +4,7 @@ using UnityEngine;
 public class WeaponHandler : NetworkBehaviour
 {
     [SerializeField]
-    private GameObject weaponLogic;
+    private GameObject weaponCollider;
 
     private bool unlocked;
 
@@ -27,7 +27,7 @@ public class WeaponHandler : NetworkBehaviour
         if (IsServer)
         {
             if (!unlocked) return;
-            weaponLogic.SetActive(true);
+            weaponCollider.SetActive(true);
         }
     }
 
@@ -36,7 +36,7 @@ public class WeaponHandler : NetworkBehaviour
     {
         if (IsServer)
         {
-            weaponLogic.SetActive(false);
+            weaponCollider.SetActive(false);
         }
     }
 }
