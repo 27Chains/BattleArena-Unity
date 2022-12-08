@@ -42,7 +42,6 @@ public class PlayerAttackingState : PlayerBaseState
                     .Range(0, stateMachine.SwordWhooshClips.Length)]);
 
         stateMachine.InputReader.AttackEvent += TryComboAttack;
-        stateMachine.InputReader.DodgeEvent += OnDodge;
         Attack();
         int attackAnimationHash =
             Animator
@@ -55,14 +54,6 @@ public class PlayerAttackingState : PlayerBaseState
             attackAnimationHash,
             transitionDuration
         );
-    }
-
-    private void OnDodge()
-    {
-        if (stateMachine.InputReader.GetDirection() != Vector3.zero)
-        {
-            stateMachine.SwitchState(PlayerState.Dodge);
-        }
     }
 
     private void Attack()
@@ -83,7 +74,6 @@ public class PlayerAttackingState : PlayerBaseState
         alreadyAppliedForce = false;
         comboFailed = false;
         stateMachine.InputReader.AttackEvent -= TryComboAttack;
-        stateMachine.InputReader.DodgeEvent -= OnDodge;
     }
 
     public override void MovementUpdate(
