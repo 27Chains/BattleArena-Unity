@@ -74,4 +74,11 @@ public class Fighter : NetworkBehaviour
         script._spawnedWeapon = spawnedWeapon;
         script._spawnedShield = shieldInstance;
     }
+
+    [ServerRpc]
+    public void DespawnEquipment(Fighter script)
+    {
+        Despawn(script._spawnedWeapon);
+        Despawn(script._spawnedShield);
+    }
 }

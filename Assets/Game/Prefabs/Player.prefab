@@ -327,6 +327,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c0e1c8dfbc5a5d242a0ddf067378129b, type: 3}
   - {fileID: 8300000, guid: 75382049498d5a044a177eb3781ac1f4, type: 3}
   _currentStateIndex: 0
+  IncomingHitDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &4867883370284613170
 MonoBehaviour:
   m_ObjectHideFlags: 0

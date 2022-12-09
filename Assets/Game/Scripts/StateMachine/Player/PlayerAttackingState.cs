@@ -31,6 +31,7 @@ public class PlayerAttackingState : PlayerBaseState
     {
         if (stateMachine.IsServer)
         {
+            Debug.Log("Unlocking weapon");
             stateMachine.WeaponHandler.UnlockWeapon();
         }
         if (!stateMachine.IsOwner) return;
