@@ -2552,7 +2552,7 @@ MonoBehaviour:
   _ipv6BindAddress: 
   _port: 27946
   _maximumClients: 4095
-  _clientAddress: 15.188.10.242
+  _clientAddress: localhost
   _timeout: 15
 --- !u!1 &1652446985099608801
 GameObject:

@@ -14,18 +14,6 @@ public class WeaponHandler : NetworkBehaviour
         unlocked = true;
     }
 
-    private void Update()
-    {
-        if (weaponCollider.activeInHierarchy)
-        {
-            Debug.Log("Weapon is active");
-        }
-        else
-        {
-            Debug.Log("Weapon is not active");
-        }
-    }
-
     [Server]
     public void LockWeapon()
     {
@@ -39,9 +27,7 @@ public class WeaponHandler : NetworkBehaviour
         if (IsServer)
         {
             if (!unlocked) return;
-            Debug.Log("Weapon is enabled");
             weaponCollider.SetActive(true);
-            Debug.Log(weaponCollider.activeInHierarchy);
         }
     }
 
