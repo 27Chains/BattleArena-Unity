@@ -1226,7 +1226,7 @@ PrefabInstance:
     - target: {fileID: 114689057623555238, guid: 9ed2a051c32b4fe47a5e4fb95c20b03f,
         type: 3}
       propertyPath: m_Size
-      value: 0.96943974
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114832139408792490, guid: 9ed2a051c32b4fe47a5e4fb95c20b03f,
         type: 3}
@@ -1326,7 +1326,7 @@ PrefabInstance:
     - target: {fileID: 224130951485110974, guid: 9ed2a051c32b4fe47a5e4fb95c20b03f,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000030517578
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224166536479716514, guid: 9ed2a051c32b4fe47a5e4fb95c20b03f,
         type: 3}
@@ -2442,6 +2442,7 @@ GameObject:
   - component: {fileID: 2077340387}
   - component: {fileID: 2077340386}
   - component: {fileID: 2077340390}
+  - component: {fileID: 2077340391}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -2534,6 +2535,25 @@ MonoBehaviour:
     _updateInteval: 1
     _updateClient: 0
     _updateServer: 0
+--- !u!114 &2077340391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077340385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f48f002b825cbd45a19bd96d90f9edb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _unreliableMTU: 1023
+  _ipv4BindAddress: 
+  _ipv6BindAddress: 
+  _port: 27946
+  _maximumClients: 4095
+  _clientAddress: 15.188.10.242
+  _timeout: 15
 --- !u!1 &1652446985099608801
 GameObject:
   m_ObjectHideFlags: 0
