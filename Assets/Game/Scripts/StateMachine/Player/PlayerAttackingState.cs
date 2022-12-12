@@ -31,7 +31,8 @@ public class PlayerAttackingState : PlayerBaseState
     {
         if (stateMachine.IsServer)
         {
-            stateMachine.WeaponHandler.UnlockWeapon();
+            stateMachine.DamageCollider.ClearCollisionList();
+            stateMachine.DamageCollider.EnableCollider();
         }
         if (!stateMachine.IsOwner) return;
 
@@ -42,7 +43,8 @@ public class PlayerAttackingState : PlayerBaseState
                     .Range(0, stateMachine.SwordWhooshClips.Length)]);
 
         stateMachine.InputReader.AttackEvent += TryComboAttack;
-        Attack();
+
+        // Attack();
         int attackAnimationHash =
             Animator
                 .StringToHash(stateMachine
@@ -68,7 +70,7 @@ public class PlayerAttackingState : PlayerBaseState
     {
         if (stateMachine.IsServer)
         {
-            stateMachine.WeaponHandler.LockWeapon();
+            stateMachine.DamageCollider.DisableCollider();
         }
         if (!stateMachine.IsOwner) return;
         alreadyAppliedForce = false;

@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3676646792677617930
 Transform:
   m_ObjectHideFlags: 0
@@ -66,6 +66,7 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 1816590975839918605}
   myCollider: {fileID: 4867883370284613175}
   fighter: {fileID: 9012926577390345740}
+  isAttacking: 0
 --- !u!54 &906212822513619061
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -282,8 +283,8 @@ MonoBehaviour:
   <NetworkAnimator>k__BackingField: {fileID: 9011259621309827166}
   <Health>k__BackingField: {fileID: 1545543730047702234}
   <Player>k__BackingField: {fileID: 5629493944027198611}
-  <WeaponHandler>k__BackingField: {fileID: 517001100811482853}
   <BlockingCollider>k__BackingField: {fileID: 3207619410652393245}
+  <DamageCollider>k__BackingField: {fileID: 7844405936603619480}
   <Fighter>k__BackingField: {fileID: 9012926577390345740}
   <ForceReceiver>k__BackingField: {fileID: 4867883370284613170}
   <AudioSource>k__BackingField: {fileID: 6866912613370808871}
@@ -374,9 +375,7 @@ MonoBehaviour:
   - {fileID: 9012926577390345740}
   - {fileID: 5629493944027198611}
   - {fileID: 1545543730047702234}
-  - {fileID: 7221552144574065492}
   - {fileID: 9011259621309827166}
-  - {fileID: 517001100811482853}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField:
   - {fileID: 8710186516249181384}
@@ -518,9 +517,9 @@ MonoBehaviour:
   _componentIndexCache: 5
   _addedNetworkObject: {fileID: 2821410769227128586}
   _networkObjectCache: {fileID: 2821410769227128586}
-  maxHealth: 100
+  maxHealth: 1000
   damageTextSpawner: {fileID: 3067228388177029859}
-  health: 70
+  health: 100
   isDead: 0
 --- !u!82 &6866912613370808871
 AudioSource:
@@ -6937,8 +6936,7 @@ GameObject:
   - component: {fileID: 7221552144574065492}
   - component: {fileID: 7221552144574065493}
   - component: {fileID: 9011259621309827166}
-  - component: {fileID: 517001100811482853}
-  - component: {fileID: 3661350995973161289}
+  - component: {fileID: 5304769030247679}
   m_Layer: 0
   m_Name: PlayerBody
   m_TagString: Untagged
@@ -6995,9 +6993,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07addf0d3a085420dbf91aef8acfdea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 6
-  _addedNetworkObject: {fileID: 2821410769227128586}
-  _networkObjectCache: {fileID: 2821410769227128586}
   stateMachine: {fileID: 4867883370284613171}
   audioSource: {fileID: 7221552144574065493}
   footstepWalkingClips:
@@ -7140,7 +7135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8cac635f24954048aad3a6ff9110beb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 7
+  _componentIndexCache: 6
   _addedNetworkObject: {fileID: 2821410769227128586}
   _networkObjectCache: {fileID: 2821410769227128586}
   IgnoredParameters: []
@@ -7149,7 +7144,7 @@ MonoBehaviour:
   _interpolation: 2
   _clientAuthoritative: 0
   _sendToOwner: 0
---- !u!114 &517001100811482853
+--- !u!114 &5304769030247679
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7161,22 +7156,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9361505e6d4244530976c126bbc14ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 8
+  _componentIndexCache: 255
   _addedNetworkObject: {fileID: 2821410769227128586}
-  _networkObjectCache: {fileID: 2821410769227128586}
-  weaponCollider: {fileID: 1306143730311191538}
---- !u!114 &3661350995973161289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7307158167361930167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 060961bd7f3a444a49299bd9f0ab4ab6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _networkObjectCache: {fileID: 0}
+  weaponCollider: {fileID: 7844405936603619480}
 --- !u!1 &7307158497311865085
 GameObject:
   m_ObjectHideFlags: 0

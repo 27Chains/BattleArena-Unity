@@ -4,30 +4,15 @@ using UnityEngine;
 public class WeaponHandler : NetworkBehaviour
 {
     [SerializeField]
-    private GameObject weaponCollider;
-
-    private bool unlocked;
-
-    [Server]
-    public void UnlockWeapon()
-    {
-        unlocked = true;
-    }
-
-    [Server]
-    public void LockWeapon()
-    {
-        unlocked = false;
-        DisableWeapon();
-    }
+    private DamageCollider weaponCollider;
 
     // called from animation event
     public void EnableWeapon()
     {
         if (IsServer)
         {
-            if (!unlocked) return;
-            weaponCollider.SetActive(true);
+            if (!weaponCollider.isAttacking) return;
+            weaponCollider.SetWeaponActive(true);
         }
     }
 
@@ -36,7 +21,7 @@ public class WeaponHandler : NetworkBehaviour
     {
         if (IsServer)
         {
-            weaponCollider.SetActive(false);
+            weaponCollider.SetWeaponActive(false);
         }
     }
 }

@@ -12,13 +12,20 @@ public class DamageCollider : NetworkBehaviour
 
     private List<Collider> alreadyCollidedWith = new List<Collider>();
 
-    private void OnEnable()
+    public bool isAttacking;
+
+    private bool isEnabled;
+
+    public void ClearCollisionList()
     {
         alreadyCollidedWith.Clear();
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!IsServer) return;
+        if (!isAttacking) return;
+        if (!isEnabled) return;
         if (other == myCollider) return;
         if (alreadyCollidedWith.Contains(other)) return;
         alreadyCollidedWith.Add (other);
@@ -49,5 +56,24 @@ public class DamageCollider : NetworkBehaviour
                     fighter.transform.position);
             }
         }
+    }
+
+    [Server]
+    public void EnableCollider()
+    {
+        isAttacking = true;
+    }
+
+    [Server]
+    public void DisableCollider()
+    {
+        isAttacking = false;
+        isEnabled = false;
+    }
+
+    [Server]
+    public void SetWeaponActive(bool active)
+    {
+        isEnabled = active;
     }
 }
