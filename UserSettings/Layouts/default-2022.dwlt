@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 2500
     height: 1547
   m_ShowMode: 4
-  m_Title: Project
+  m_Title: Hierarchy
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -120,7 +120,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 23
+  controlID: 19
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 24
+  controlID: 20
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ProjectBrowser
+  m_Name: ConsoleWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -193,15 +193,15 @@ MonoBehaviour:
     y: 894
     width: 1434
     height: 603
-  m_MinSize: {x: 231, y: 271}
-  m_MaxSize: {x: 10001, y: 10021}
-  m_ActualView: {fileID: 15}
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
+  m_ActualView: {fileID: 11}
   m_Panes:
   - {fileID: 15}
   - {fileID: 11}
   - {fileID: 16}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -247,8 +247,8 @@ MonoBehaviour:
     y: 0
     width: 574
     height: 1497
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
@@ -594,9 +594,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: -0.45376837, y: 0.005609754, z: -0.002857811, w: -0.8910975}
   m_Size:
-    m_Target: 7.6787577
+    m_Target: 7.64542
     speed: 2
-    m_Value: 7.667257
+    m_Value: 7.6339693
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -860,9 +860,9 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 130}
-    m_SelectedIDs: f2790000
-    m_LastClickedID: 31218
-    m_ExpandedIDs: 00000000e0790000e2790000e4790000e6790000e8790000ea790000ec790000ee790000f0790000f2790000f4790000f6790000f8790000fa790000fc790000fe79000000ca9a3b
+    m_SelectedIDs: cedd0900
+    m_LastClickedID: 646606
+    m_ExpandedIDs: 00000000bcdd0900bedd0900c0dd0900c2dd0900c4dd0900c6dd0900c8dd0900cadd0900ccdd0900cedd0900d0dd0900d2dd0900d4dd0900d6dd0900d8dd0900dadd090000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -890,7 +890,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000e0790000e2790000e4790000e6790000e8790000ea790000ec790000ee790000f0790000f2790000f4790000f6790000f8790000fa790000fc790000fe790000
+    m_ExpandedIDs: 00000000bcdd0900bedd0900c0dd0900c2dd0900c4dd0900c6dd0900c8dd0900cadd0900ccdd0900cedd0900d0dd0900d2dd0900d4dd0900d6dd0900d8dd0900dadd0900
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -915,8 +915,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
+    m_SelectedInstanceIDs: 8adb0900
+    m_LastClickedInstanceID: 646026
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000f01e1200a20e0b00b20e0b004e5b0a001c5b0a002ee40c0026e40c006ee40c00e2110a00
     m_RenameOverlay:
@@ -977,7 +977,7 @@ MonoBehaviour:
     m_SaveData: []
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: -364854
+  m_LastSelectedObjectID: -72092
 --- !u!114 &17
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1010,9 +1010,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 62ec0900
-      m_LastClickedID: 650338
-      m_ExpandedIDs: aeeeffff6aefffff34f4ffff16fbffff
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: 64e6feff6ce6feff70e6feff78e6feffe6e6feffeae6feffeee6fefff2e6fefffae6fefffee6feffb2f8feffc2f8feffdcf8feffe8f9fefff0f9fefff4f9fefffcf9feff6efafeff72fafeff76fafeff7efafeff82fafeff460cffff600cffff7412ffff7c12ffff8012ffff8812fffffa12fffffe12ffff0213ffff0a13ffff0e13ffffd224ffffec24ffff2e2bffff322bffffa02bffffa82bffffac2bffffb42bffff262cffff2a2cffff2e2cffff362cffff3a2cfffffe3dffff183effffa4d1ffff50d2ffffbcd6ffff14fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
