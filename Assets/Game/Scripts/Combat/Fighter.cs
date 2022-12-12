@@ -39,6 +39,12 @@ public class Fighter : NetworkBehaviour
         inputReader.ShowWeaponEvent += HandleSpawn;
     }
 
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+        if (base.IsOwner) DespawnEquipment(this);
+    }
+
     private void HandleSpawn()
     {
         if (!IsOwner) return;
@@ -60,19 +66,6 @@ public class Fighter : NetworkBehaviour
 
         Spawn(weaponInstance, base.LocalConnection);
         Spawn(shieldInstance, base.LocalConnection);
-
-        SetSpawnedItems (weaponInstance, shieldInstance, script);
-    }
-
-    [ObserversRpc]
-    public void SetSpawnedItems(
-        GameObject spawnedWeapon,
-        GameObject shieldInstance,
-        Fighter script
-    )
-    {
-        script._spawnedWeapon = spawnedWeapon;
-        script._spawnedShield = shieldInstance;
     }
 
     [ServerRpc]

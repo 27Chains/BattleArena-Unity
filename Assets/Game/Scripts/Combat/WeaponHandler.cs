@@ -11,7 +11,6 @@ public class WeaponHandler : NetworkBehaviour
     {
         if (IsServer)
         {
-            if (!weaponCollider.isAttacking) return;
             weaponCollider.SetWeaponActive(true);
         }
     }

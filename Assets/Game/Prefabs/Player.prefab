@@ -376,6 +376,7 @@ MonoBehaviour:
   - {fileID: 5629493944027198611}
   - {fileID: 1545543730047702234}
   - {fileID: 9011259621309827166}
+  - {fileID: 5304769030247679}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField:
   - {fileID: 8710186516249181384}
@@ -517,7 +518,7 @@ MonoBehaviour:
   _componentIndexCache: 5
   _addedNetworkObject: {fileID: 2821410769227128586}
   _networkObjectCache: {fileID: 2821410769227128586}
-  maxHealth: 1000
+  maxHealth: 100
   damageTextSpawner: {fileID: 3067228388177029859}
   health: 100
   isDead: 0
@@ -7156,9 +7157,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9361505e6d4244530976c126bbc14ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 7
   _addedNetworkObject: {fileID: 2821410769227128586}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 2821410769227128586}
   weaponCollider: {fileID: 7844405936603619480}
 --- !u!1 &7307158497311865085
 GameObject:

@@ -68,13 +68,14 @@ public class PlayerAttackingState : PlayerBaseState
 
     public override void Exit()
     {
+        alreadyAppliedForce = false;
+        comboFailed = false;
         if (stateMachine.IsServer)
         {
             stateMachine.DamageCollider.DisableCollider();
         }
         if (!stateMachine.IsOwner) return;
-        alreadyAppliedForce = false;
-        comboFailed = false;
+
         stateMachine.InputReader.AttackEvent -= TryComboAttack;
     }
 
