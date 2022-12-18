@@ -26,11 +26,6 @@ public class InputReader : MonoBehaviour, PlayerControls.IPlayerActions
         playerControls.Player.Enable();
     }
 
-    private void OnDestroy()
-    {
-        playerControls.Player.Disable();
-    }
-
     public void OnMove(InputAction.CallbackContext context)
     {
         MovementValue = context.ReadValue<Vector2>();

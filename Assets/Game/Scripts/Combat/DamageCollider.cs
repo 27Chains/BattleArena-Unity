@@ -8,72 +8,75 @@ public class DamageCollider : NetworkBehaviour
     private Collider myCollider;
 
     [SerializeField]
+    private float weaponLength = 1.5f;
+
+    [SerializeField]
+    private GameObject raycastOrigin;
+
+    [SerializeField]
     private Fighter fighter;
 
     private List<Collider> alreadyCollidedWith = new List<Collider>();
 
-    public bool isAttacking;
+    public bool isEnabled;
 
-    private bool isEnabled;
-
-    public void ClearCollisionList()
+    private void Update()
     {
-        alreadyCollidedWith.Clear();
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!IsServer) return;
-        if (!isAttacking) return;
         if (!isEnabled) return;
-        if (other == myCollider) return;
-        if (alreadyCollidedWith.Contains(other)) return;
-        alreadyCollidedWith.Add (other);
-
-        if (other.tag == "Player")
+        for (int i = 0; i < 15; i++)
         {
-            Health health = other.GetComponent<Health>();
-            BlockingCollider shield =
-                other.transform.GetComponentInChildren<BlockingCollider>();
-            float currentWeaponDamage = fighter.CurrentWeapon.GetDamage();
-            if (shield.IsBlocking)
+            float angle =
+                raycastOrigin.transform.eulerAngles.y + i * 90 / 15 - 45;
+            RaycastHit hit;
+            if (
+                Physics
+                    .Raycast(raycastOrigin.transform.position,
+                    Quaternion.Euler(0, angle, 0) * Vector3.forward,
+                    out hit,
+                    weaponLength)
+            )
             {
-                float blockDamageReduction =
-                    fighter.CurrentShield.GetPhysicalDamageAbsorbtion();
-
-                currentWeaponDamage -=
-                    (currentWeaponDamage * blockDamageReduction) / 100;
-
-                health
-                    .TakeDamage(currentWeaponDamage,
-                    fighter.transform.position);
-                return;
-            }
-            if (health != null)
-            {
-                health
-                    .TakeDamage(currentWeaponDamage,
-                    fighter.transform.position);
+                if (hit.collider == myCollider) return;
+                if (alreadyCollidedWith.Contains(hit.collider)) return;
+                alreadyCollidedWith.Add(hit.collider);
+                if (hit.collider.CompareTag("Player"))
+                {
+                    float currentWeaponDamage =
+                        fighter.CurrentWeapon.GetDamage();
+                    hit
+                        .collider
+                        .GetComponent<Health>()
+                        .TakeDamage(currentWeaponDamage,
+                        fighter.transform.position);
+                }
             }
         }
     }
 
-    [Server]
-    public void EnableCollider()
+    private void OnDrawGizmos()
     {
-        isAttacking = true;
+        Gizmos.color = Color.red;
+        for (int i = 0; i < 15; i++)
+        {
+            float angle =
+                raycastOrigin.transform.eulerAngles.y + i * 90 / 15 - 45;
+            Gizmos
+                .DrawRay(raycastOrigin.transform.position,
+                Quaternion.Euler(0, angle, 0) * Vector3.forward * weaponLength);
+        }
     }
 
     [Server]
     public void DisableCollider()
     {
-        isAttacking = false;
         isEnabled = false;
+        alreadyCollidedWith.Clear();
     }
 
     [Server]
     public void SetWeaponActive(bool active)
     {
         isEnabled = active;
+        alreadyCollidedWith.Clear();
     }
 }

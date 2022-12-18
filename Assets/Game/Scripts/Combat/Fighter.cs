@@ -42,7 +42,8 @@ public class Fighter : NetworkBehaviour
     public override void OnStopClient()
     {
         base.OnStopClient();
-        if (base.IsOwner) DespawnEquipment(this);
+        if (!base.IsOwner) return;
+        DespawnEquipment(this);
     }
 
     private void HandleSpawn()

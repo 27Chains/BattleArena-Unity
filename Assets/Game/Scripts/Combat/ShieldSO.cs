@@ -1,14 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [
     CreateAssetMenu(
         fileName = "ShieldSO",
-        menuName = "Sheilds/Make New Shield",
+        menuName = "Items/Shield/Make New Shield",
         order = 0)
 ]
-public class ShieldSO : ScriptableObject
+public class ShieldSO : Item
 {
     [SerializeField]
     private float absorbtionAmount;

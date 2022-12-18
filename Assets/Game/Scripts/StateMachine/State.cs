@@ -2,36 +2,44 @@ using UnityEngine;
 
 public abstract class State
 {
-    protected const float crossFadeDuration = 0.1f;
+    public Character character;
+
+    public StateMachine stateMachine;
+
+    public State(StateMachine _stateMachine, Character _character)
+    {
+        character = _character;
+        stateMachine = _stateMachine;
+    }
 
     public abstract void Enter();
 
-    public abstract void Tick(float deltaTime);
-
     public abstract void Exit();
 
-    public abstract void MovementUpdate(
-        MoveData moveData,
-        bool asServer,
-        bool replaying = false
-    );
-
-    protected float GetNormalizedTime(Animator animator, string AnimationName)
+    public virtual void HandleInput()
     {
-        AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo(0);
-        AnimatorStateInfo nextInfo = animator.GetNextAnimatorStateInfo(0);
+    }
 
-        if (animator.IsInTransition(0) && nextInfo.IsName(AnimationName))
-        {
-            return nextInfo.normalizedTime;
-        }
-        else if (!currentInfo.IsName(AnimationName))
-        {
-            return nextInfo.normalizedTime;
-        }
-        else if (
-            !animator.IsInTransition(0) && currentInfo.IsName(AnimationName)
+    public virtual void LogicUpdate()
+    {
+    }
+
+    public float
+    GetNormalizedTime(Animator animator, int layerIndex, string animationName)
+    {
+        AnimatorStateInfo currentInfo =
+            animator.GetCurrentAnimatorStateInfo(layerIndex);
+        AnimatorStateInfo nextInfo =
+            animator.GetNextAnimatorStateInfo(layerIndex);
+
+        if (
+            animator.IsInTransition(layerIndex) &&
+            nextInfo.IsName(animationName)
         )
+        {
+            return nextInfo.normalizedTime;
+        }
+        else if (currentInfo.IsName(animationName))
         {
             return currentInfo.normalizedTime;
         }

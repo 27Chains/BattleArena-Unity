@@ -9,9 +9,8 @@ public class PlayerHUD : MonoBehaviour
 
     private Health health;
 
-    public void Initialize(Player player)
+    public void Initialize(Health health)
     {
-        health = player.GetComponent<Health>();
         UpdateHealth(health.GetHealthPoints());
         health.OnTakeDamage += UpdateHealth;
     }
@@ -21,9 +20,6 @@ public class PlayerHUD : MonoBehaviour
         Vector3 incomingDirection = default
     )
     {
-        healthValue.text =
-            System
-                .String
-                .Format("{0}/{1}", newHealth, health.GetMaxHealthPoints());
+        healthValue.text = newHealth.ToString();
     }
 }
