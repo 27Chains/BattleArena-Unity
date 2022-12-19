@@ -1,7 +1,7 @@
 using FishNet.Object;
 using UnityEngine;
 
-public class Footsteps : MonoBehaviour
+public class Footsteps : NetworkBehaviour
 {
     [SerializeField]
     private AudioSource audioSource;
@@ -13,6 +13,7 @@ public class Footsteps : MonoBehaviour
 
     public void FootR()
     {
+        if (!IsOwner) return;
         if (lastStep == 0) return;
         lastStep = 0;
         audioSource
@@ -22,6 +23,7 @@ public class Footsteps : MonoBehaviour
 
     public void FootL()
     {
+        if (!IsOwner) return;
         if (lastStep == 1) return;
         lastStep = 1;
         audioSource

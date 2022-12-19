@@ -8,6 +8,8 @@ public struct MoveData
 {
     public Vector3 Movement;
 
+    public Quaternion Rotation;
+
     public bool IsRunning;
 }
 
@@ -24,7 +26,8 @@ public enum PlayerState
     Attack,
     Dodge,
     Block,
-    Death
+    Death,
+    Impact
 }
 
 public class Character : NetworkBehaviour
@@ -73,7 +76,7 @@ public class Character : NetworkBehaviour
 
     public MoveData MovementData;
 
-    public State[] states = new State[5];
+    public State[] states = new State[6];
 
     public State GetState(PlayerState state)
     {
@@ -96,6 +99,7 @@ public class Character : NetworkBehaviour
         states[(int) PlayerState.Dodge] = new DodgeState(stateMachine, this);
         states[(int) PlayerState.Block] = new BlockState(stateMachine, this);
         states[(int) PlayerState.Death] = new DeadState(stateMachine, this);
+        states[(int) PlayerState.Impact] = new ImpactState(stateMachine, this);
     }
 
     public override void OnStartClient()
@@ -108,6 +112,14 @@ public class Character : NetworkBehaviour
         stateMachine.Initialize(states[(int) PlayerState.Movement]);
         InitializeHUD();
         Health.OnDie += HandleDeath;
+        Health.OnTakeDamage += HandleDamage;
+    }
+
+    private void HandleDamage(float damage, Vector3 attackerPosition)
+    {
+        // ServerRotate(Quaternion
+        //     .LookRotation(attackerPosition - transform.position));
+        stateMachine.ChangeState(PlayerState.Impact);
     }
 
     private void HandleDeath()
@@ -139,6 +151,12 @@ public class Character : NetworkBehaviour
         base.OnStopNetwork();
         if (base.TimeManager != null)
             base.TimeManager.OnTick -= TimeManager_OnTick;
+    }
+
+    [ServerRpc(RunLocally = true)]
+    public void ServerRotate(Quaternion rotation)
+    {
+        transform.rotation = rotation;
     }
 
     [ServerRpc(RunLocally = true)]

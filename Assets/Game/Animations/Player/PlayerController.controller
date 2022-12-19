@@ -251,7 +251,7 @@ AnimatorStateMachine:
     m_Position: {x: 670, y: 340, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6456356096070000370}
-    m_Position: {x: 670, y: 390, z: 0}
+    m_Position: {x: 670, y: 430, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2245899878634209851}
     m_Position: {x: 530, y: 580, z: 0}
@@ -364,7 +364,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DamageTaken
+  m_Name: Impact
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
