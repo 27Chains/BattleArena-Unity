@@ -14,9 +14,15 @@ public class InputReader : MonoBehaviour, PlayerControls.IPlayerActions
 
     public event Action DodgeEvent;
 
+    public event Action<Vector2> DashEvent;
+
     public bool IsRunning { get; private set; }
 
     public bool IsBlocking { get; private set; }
+
+    private float lastTapTime;
+
+    private const float doubleTapTime = 0.2f;
 
     private void Start()
     {
@@ -81,6 +87,25 @@ public class InputReader : MonoBehaviour, PlayerControls.IPlayerActions
         else if (context.canceled)
         {
             IsBlocking = false;
+        }
+    }
+
+    public void OnDoubleTap(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            float timeSinceLastTap = Time.time - lastTapTime;
+
+            if (timeSinceLastTap <= doubleTapTime)
+            {
+                if (Keyboard.current.sKey.isPressed)
+                {
+                    Debug.Log("Dash forward");
+                    // DashEvent?.Invoke(Vector3.back);
+                }
+            }
+
+            lastTapTime = Time.time;
         }
     }
 }

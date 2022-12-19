@@ -1,3 +1,4 @@
+using System;
 using Cinemachine;
 using FishNet.Object;
 using FishNet.Object.Prediction;
@@ -21,8 +22,8 @@ public enum PlayerState
 {
     Movement,
     Attack,
-    Blocking,
     Dodge,
+    Block,
     Death
 }
 
@@ -32,6 +33,8 @@ public class Character : NetworkBehaviour
     public float walkSpeed = 5f;
 
     public float turnSpeed = 5f;
+
+    public float dodgeSpeed = 10f;
 
     public float runningSpeed = 10f;
 
@@ -58,6 +61,9 @@ public class Character : NetworkBehaviour
     public InputReader InputReader;
 
     [HideInInspector]
+    public ForceReceiver ForceReceiver;
+
+    [HideInInspector]
     public Health Health;
 
     [HideInInspector]
@@ -67,7 +73,7 @@ public class Character : NetworkBehaviour
 
     public MoveData MovementData;
 
-    public State[] states = new State[2];
+    public State[] states = new State[5];
 
     public State GetState(PlayerState state)
     {
@@ -80,12 +86,16 @@ public class Character : NetworkBehaviour
         CharacterController = GetComponent<CharacterController>();
         Animator = GetComponentInChildren<Animator>();
         Inventory = GetComponent<CharacterInventory>();
+        ForceReceiver = GetComponent<ForceReceiver>();
         Health = GetComponent<Health>();
         stateMachine = GetComponent<StateMachine>();
 
         states[(int) PlayerState.Movement] =
             new MovementState(stateMachine, this);
         states[(int) PlayerState.Attack] = new AttackState(stateMachine, this);
+        states[(int) PlayerState.Dodge] = new DodgeState(stateMachine, this);
+        states[(int) PlayerState.Block] = new BlockState(stateMachine, this);
+        states[(int) PlayerState.Death] = new DeadState(stateMachine, this);
     }
 
     public override void OnStartClient()
@@ -97,6 +107,12 @@ public class Character : NetworkBehaviour
         virtualCamera.Follow = transform.GetChild(0).transform;
         stateMachine.Initialize(states[(int) PlayerState.Movement]);
         InitializeHUD();
+        Health.OnDie += HandleDeath;
+    }
+
+    private void HandleDeath()
+    {
+        stateMachine.ChangeState(PlayerState.Death);
     }
 
     private void InitializeHUD()
@@ -146,6 +162,7 @@ public class Character : NetworkBehaviour
     private void Move(MoveData moveData, bool asServer, bool replaying = false)
     {
         float deltaTime = (float) base.TimeManager.TickDelta;
+
         if (moveData.Movement != Vector3.zero)
         {
             float movementSpeed = moveData.IsRunning ? 1f : 0.5f;

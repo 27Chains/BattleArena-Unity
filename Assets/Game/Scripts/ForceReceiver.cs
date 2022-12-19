@@ -1,3 +1,4 @@
+using FishNet.Object;
 using UnityEngine;
 
 public enum ForceType
@@ -12,6 +13,8 @@ public class ForceReceiver : MonoBehaviour
 
     private Vector3 dampingVelocity;
 
+    private Character character;
+
     private ForceType currentForceType = ForceType.Smooth;
 
     private float duration;
@@ -21,12 +24,17 @@ public class ForceReceiver : MonoBehaviour
 
     public Vector3 Movement => impact;
 
+    private void Awake()
+    {
+        character = GetComponent<Character>();
+    }
+
     private void Update()
     {
         ReduceImpact();
     }
 
-    private void ReduceImpact()
+    public void ReduceImpact()
     {
         if (currentForceType == ForceType.Linear && duration > 0)
         {
@@ -47,15 +55,14 @@ public class ForceReceiver : MonoBehaviour
         {
             impact = Vector3.zero;
         }
+
+        character.MovementData.Movement = impact;
     }
 
     public void AddForce(Vector3 force, ForceType forceType, float duration = 0)
     {
-        if (forceType != currentForceType)
-        {
-            currentForceType = forceType;
-        }
+        currentForceType = forceType;
         this.duration = duration;
-        impact += force;
+        impact = force;
     }
 }

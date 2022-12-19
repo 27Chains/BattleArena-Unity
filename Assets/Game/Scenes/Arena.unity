@@ -2591,7 +2591,7 @@ MonoBehaviour:
   _ipv6BindAddress: 
   _port: 27061
   _maximumClients: 5
-  _clientAddress: 13.38.129.104
+  _clientAddress: localhost
   _timeout: 15
 --- !u!114 &2077340392
 MonoBehaviour:
@@ -2607,9 +2607,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Transport: {fileID: 2077340391}
   _latencySimulator:
-    _enabled: 0
+    _enabled: 1
     _simulateHost: 1
-    _latency: 40
+    _latency: 80
     _outOfOrder: 0
     _packetLoss: 0
 --- !u!1 &1652446985099608801

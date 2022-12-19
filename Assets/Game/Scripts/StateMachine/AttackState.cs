@@ -18,6 +18,7 @@ public class AttackState : State
 
     public override void Enter()
     {
+        Debug.Log("Enter Attack State");
         if (!character.IsOwner) return;
         currentAnimation =
             character.Inventory.Weapon.AttackAnimations[comboIndex];
@@ -27,6 +28,7 @@ public class AttackState : State
 
     public override void LogicUpdate()
     {
+        if (!character.IsOwner) return;
         base.LogicUpdate();
         timePassed = GetNormalizedTime(character.Animator, 0, currentAnimation);
         if (GetNormalizedTime(character.Animator, 0, currentAnimation) > 1f)
@@ -46,7 +48,7 @@ public class AttackState : State
     {
         if (
             timePassed > 0.5f &&
-            timePassed < 0.8f &&
+            timePassed < 0.7f &&
             character.Inventory.Weapon.AttackAnimations.Length > comboIndex + 1
         )
         {

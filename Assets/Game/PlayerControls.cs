@@ -80,6 +80,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DoubleTap"",
+                    ""type"": ""Button"",
+                    ""id"": ""33f16beb-416d-4345-bfe1-4f4e3dd34119"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -247,6 +256,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Block"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9962b983-e1db-4574-b943-247680fa4511"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse and Keyboard"",
+                    ""action"": ""DoubleTap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -278,6 +298,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Player_ShowWeapon = m_Player.FindAction("ShowWeapon", throwIfNotFound: true);
         m_Player_Roll = m_Player.FindAction("Roll", throwIfNotFound: true);
         m_Player_Block = m_Player.FindAction("Block", throwIfNotFound: true);
+        m_Player_DoubleTap = m_Player.FindAction("DoubleTap", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -343,6 +364,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ShowWeapon;
     private readonly InputAction m_Player_Roll;
     private readonly InputAction m_Player_Block;
+    private readonly InputAction m_Player_DoubleTap;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -353,6 +375,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @ShowWeapon => m_Wrapper.m_Player_ShowWeapon;
         public InputAction @Roll => m_Wrapper.m_Player_Roll;
         public InputAction @Block => m_Wrapper.m_Player_Block;
+        public InputAction @DoubleTap => m_Wrapper.m_Player_DoubleTap;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -380,6 +403,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Block.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
                 @Block.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
                 @Block.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
+                @DoubleTap.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDoubleTap;
+                @DoubleTap.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDoubleTap;
+                @DoubleTap.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDoubleTap;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -402,6 +428,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Block.started += instance.OnBlock;
                 @Block.performed += instance.OnBlock;
                 @Block.canceled += instance.OnBlock;
+                @DoubleTap.started += instance.OnDoubleTap;
+                @DoubleTap.performed += instance.OnDoubleTap;
+                @DoubleTap.canceled += instance.OnDoubleTap;
             }
         }
     }
@@ -423,5 +452,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnShowWeapon(InputAction.CallbackContext context);
         void OnRoll(InputAction.CallbackContext context);
         void OnBlock(InputAction.CallbackContext context);
+        void OnDoubleTap(InputAction.CallbackContext context);
     }
 }
