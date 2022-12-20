@@ -37,6 +37,8 @@ public class Character : NetworkBehaviour
     [Header("Controls")]
     public float walkSpeed = 5f;
 
+    public float blockingMoveSpeed = 2f;
+
     public float turnSpeed = 5f;
 
     public float dodgeSpeed = 10f;
@@ -84,6 +86,15 @@ public class Character : NetworkBehaviour
     public Vector3 HitData;
 
     public State[] states = new State[7];
+
+    public int MovementSpeedAnimHash = Animator.StringToHash("MovementSpeed");
+
+    public int
+        VerticalMovementAnimHash = Animator.StringToHash("VerticalMovement");
+
+    public int
+        HorizontalMovementAnimHash =
+            Animator.StringToHash("HorizontalMovement");
 
     public State GetState(PlayerState state)
     {
@@ -186,6 +197,12 @@ public class Character : NetworkBehaviour
         }
     }
 
+    [ServerRpc(RunLocally = true)]
+    public void ServerSetBool(string boolName, bool value)
+    {
+        Animator.SetBool (boolName, value);
+    }
+
     [ObserversRpc(IncludeOwner = false)]
     public void ObserversPlayAnim(int animName)
     {
@@ -196,26 +213,42 @@ public class Character : NetworkBehaviour
     private void Move(MoveData moveData, bool asServer, bool replaying = false)
     {
         float deltaTime = (float) base.TimeManager.TickDelta;
+        if (stateMachine.currentState == states[(int) PlayerState.Block])
+        {
+            float horizontalMovement =
+                Vector3.Dot(transform.right, moveData.Movement);
+            float verticalMovement =
+                Vector3.Dot(transform.forward, moveData.Movement);
+            Animator
+                .SetFloat(HorizontalMovementAnimHash,
+                horizontalMovement,
+                0.1f,
+                deltaTime);
+            Animator
+                .SetFloat(VerticalMovementAnimHash,
+                verticalMovement,
+                0.1f,
+                deltaTime);
+
+            CharacterController
+                .Move((moveData.Movement * blockingMoveSpeed) * deltaTime);
+            return;
+        }
 
         if (moveData.Movement != Vector3.zero)
         {
             float movementSpeed = moveData.IsRunning ? 1f : 0.5f;
-            Animator
-                .SetFloat("MovementSpeed",
+            Animator.SetFloat (
+                MovementSpeedAnimHash,
                 movementSpeed,
                 speedDampTime,
-                deltaTime);
+                deltaTime
+            );
 
             if (stateMachine.currentState == states[(int) PlayerState.Impact])
             {
                 transform.rotation =
                     Quaternion.LookRotation(-moveData.Movement);
-            }
-            else if (
-                stateMachine.currentState == states[(int) PlayerState.Block]
-            )
-            {
-                // do not rotate but needs to override animation for walking
             }
             else
             {
@@ -224,12 +257,13 @@ public class Character : NetworkBehaviour
         }
         else
         {
-            Animator.SetFloat("MovementSpeed", 0f, speedDampTime, deltaTime);
+            Animator
+                .SetFloat(MovementSpeedAnimHash, 0f, speedDampTime, deltaTime);
         }
 
-        if (Animator.GetFloat("MovementSpeed") < 0.01f)
+        if (Animator.GetFloat(MovementSpeedAnimHash) < 0.01f)
         {
-            Animator.SetFloat("MovementSpeed", 0f);
+            Animator.SetFloat(MovementSpeedAnimHash, 0f);
         }
 
         CharacterController.Move(moveData.Movement * deltaTime);

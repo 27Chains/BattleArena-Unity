@@ -16,17 +16,20 @@ public class BlockState : State
             character.BlockingCollider.EnableCollider();
         }
         if (!character.IsOwner) return;
-
+        character.ServerSetBool("Blocking", true);
         character.ServerPlayAnim("Block");
     }
 
     public override void Exit()
     {
-        character.ServerPlayAnim("BlockDefault");
         if (character.IsServer)
         {
             character.BlockingCollider.DisableCollider();
         }
+        if (!character.IsOwner) return;
+
+        character.ServerPlayAnim("BlockDefault");
+        character.ServerSetBool("Blocking", false);
     }
 
     public override void HandleInput()
@@ -40,11 +43,7 @@ public class BlockState : State
         if (movement != Vector3.zero)
         {
             MoveData moveData = default;
-            float MovementSpeed = character.walkSpeed;
-
-            moveData.Movement = movement.normalized * MovementSpeed;
-            moveData.IsRunning = character.InputReader.IsRunning;
-
+            moveData.Movement = movement.normalized;
             character.MovementData = moveData;
         }
         else
