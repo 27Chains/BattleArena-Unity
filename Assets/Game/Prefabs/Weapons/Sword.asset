@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf573cbf05c0a44c298ffdfa60cb1ded, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
-  weaponDamage: 10
+  equippedPrefab: {fileID: 7850953861612825553, guid: 257814eb0084d4a6dbbee6dd679ec270,
+    type: 3}
+  minDamage: 7
+  maxDamage: 13
   weaponRange: 2
   knockbackForce: 3
   WeaponForce: 5
-  equippedPrefab: {fileID: 7850953861612825553, guid: 257814eb0084d4a6dbbee6dd679ec270,
-    type: 3}
   AttackAnimations:
   - Attack1
   - Attack2

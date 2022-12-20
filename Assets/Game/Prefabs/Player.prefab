@@ -51,7 +51,6 @@ MonoBehaviour:
   myCollider: {fileID: 4867883370284613175}
   weaponLength: 1
   raycastOrigin: {fileID: 7307717305291277395}
-  fighter: {fileID: 9012926577390345740}
   isEnabled: 0
 --- !u!114 &1816590975839918605
 MonoBehaviour:
@@ -184,7 +183,6 @@ GameObject:
   - component: {fileID: 2821410769227128586}
   - component: {fileID: 489113228700210211}
   - component: {fileID: 8332382748139297915}
-  - component: {fileID: 9012926577390345740}
   - component: {fileID: 1545543730047702234}
   - component: {fileID: 6866912613370808871}
   - component: {fileID: 500050307286870965}
@@ -275,12 +273,13 @@ MonoBehaviour:
   _networkBehaviours:
   - {fileID: 489113228700210211}
   - {fileID: 8332382748139297915}
-  - {fileID: 9012926577390345740}
   - {fileID: 1545543730047702234}
   - {fileID: 500050307286870965}
   - {fileID: 3573662399324600199}
+  - {fileID: 2675854009099330676}
   - {fileID: 9011259621309827166}
   - {fileID: 5304769030247679}
+  - {fileID: 9148425881923257096}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField:
   - {fileID: 8710186516249181384}
@@ -369,28 +368,6 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
---- !u!114 &9012926577390345740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4867883370284613174}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0a29d96cf8564c0c8a1a09bf7f610c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 2
-  _addedNetworkObject: {fileID: 2821410769227128586}
-  _networkObjectCache: {fileID: 2821410769227128586}
-  _rightHandWeaponHolder: {fileID: 3023233976867964485}
-  _leftHandWeaponHolder: {fileID: 937668845606224519}
-  inputReader: {fileID: 4867883370284613169}
-  _currentWeapon: {fileID: 11400000, guid: f4751448117104a66878fab9f75569bb, type: 2}
-  _currentShield: {fileID: 11400000, guid: a91ef649c4a624451a5dac25278b6c8c, type: 2}
-  _spawnedWeapon: {fileID: 0}
-  _spawnedShield: {fileID: 0}
 --- !u!114 &1545543730047702234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,7 +380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0ee6caf88264e4fb765355f7b97a3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 3
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 2821410769227128586}
   _networkObjectCache: {fileID: 2821410769227128586}
   maxHealth: 100
@@ -518,11 +495,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e9db1c8d21614ca8a39edb7c42639b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 4
+  _componentIndexCache: 3
   _addedNetworkObject: {fileID: 2821410769227128586}
   _networkObjectCache: {fileID: 2821410769227128586}
   walkSpeed: 3
   turnSpeed: 25
+  dodgeSpeed: 10
   runningSpeed: 6
   speedDampTime: 0.1
   velocityDampTime: 0.9
@@ -531,8 +509,10 @@ MonoBehaviour:
   CharacterController: {fileID: 0}
   Inventory: {fileID: 0}
   InputReader: {fileID: 0}
+  ForceReceiver: {fileID: 0}
   Health: {fileID: 0}
   stateMachine: {fileID: 3573662399324600199}
+  HitData: {x: 0, y: 0, z: 0}
 --- !u!114 &3573662399324600199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -545,7 +525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1868e4948198f48acbefc9f0c99d6280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 5
+  _componentIndexCache: 4
   _addedNetworkObject: {fileID: 2821410769227128586}
   _networkObjectCache: {fileID: 2821410769227128586}
 --- !u!114 &2675854009099330676
@@ -560,10 +540,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 771311cf63aff4d92a019d683f82e817, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Weapon>k__BackingField: {fileID: 11400000, guid: f4751448117104a66878fab9f75569bb,
-    type: 2}
-  <SupportItem>k__BackingField: {fileID: 11400000, guid: a91ef649c4a624451a5dac25278b6c8c,
-    type: 2}
+  _componentIndexCache: 5
+  _addedNetworkObject: {fileID: 2821410769227128586}
+  _networkObjectCache: {fileID: 2821410769227128586}
+  Weapons:
+  - {fileID: 11400000, guid: f4751448117104a66878fab9f75569bb, type: 2}
+  SupportItems:
+  - {fileID: 11400000, guid: a91ef649c4a624451a5dac25278b6c8c, type: 2}
+  _rightHandWeaponHolder: {fileID: 3023233976867964485}
+  _leftHandWeaponHolder: {fileID: 937668845606224519}
 --- !u!1 &5086953566737855646
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,12 +576,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5086953566737855646}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7305497401378404045}
+  m_Father: {fileID: 7312965413915368511}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &81766060016137363
@@ -610,8 +595,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 100, y: 200, z: 6}
-  m_Center: {x: 80, y: -35, z: 40}
+  m_Size: {x: 50, y: 100, z: 6}
+  m_Center: {x: 0, y: 100, z: 50}
 --- !u!114 &8710186516249181384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -670,6 +655,7 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 8710186516249181384}
   _networkObjectCache: {fileID: 8710186516249181384}
+  blockingCollider: {fileID: 81766060016137363}
 --- !u!1 &7307090560846358299
 GameObject:
   m_ObjectHideFlags: 0
@@ -1579,6 +1565,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7305799486360750033}
+  - {fileID: 6188687907525259576}
   m_Father: {fileID: 7305896409191516099}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7073,6 +7060,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07addf0d3a085420dbf91aef8acfdea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 8
+  _addedNetworkObject: {fileID: 2821410769227128586}
+  _networkObjectCache: {fileID: 2821410769227128586}
   audioSource: {fileID: 7221552144574065493}
   footstepWalkingClips:
   - {fileID: 8300000, guid: 551d550ab98e3cc4bb7793e752fe8628, type: 3}
@@ -43247,7 +43237,6 @@ Transform:
   - {fileID: 7313055917988434475}
   - {fileID: 7305673084733963173}
   - {fileID: 7312910954847375959}
-  - {fileID: 6188687907525259576}
   - {fileID: 937668845606224519}
   m_Father: {fileID: 7313174258411898415}
   m_RootOrder: 1

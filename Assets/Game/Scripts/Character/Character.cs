@@ -1,5 +1,6 @@
 using System;
 using Cinemachine;
+using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Prediction;
 using UnityEngine;
@@ -68,6 +69,9 @@ public class Character : NetworkBehaviour
     public ForceReceiver ForceReceiver;
 
     [HideInInspector]
+    public BlockingCollider BlockingCollider;
+
+    [HideInInspector]
     public Health Health;
 
     [HideInInspector]
@@ -93,6 +97,7 @@ public class Character : NetworkBehaviour
         Animator = GetComponentInChildren<Animator>();
         Inventory = GetComponent<CharacterInventory>();
         ForceReceiver = GetComponent<ForceReceiver>();
+        BlockingCollider = GetComponentInChildren<BlockingCollider>();
         Health = GetComponent<Health>();
         stateMachine = GetComponent<StateMachine>();
 
@@ -203,9 +208,14 @@ public class Character : NetworkBehaviour
 
             if (stateMachine.currentState == states[(int) PlayerState.Impact])
             {
-                // rotate the other way
                 transform.rotation =
                     Quaternion.LookRotation(-moveData.Movement);
+            }
+            else if (
+                stateMachine.currentState == states[(int) PlayerState.Block]
+            )
+            {
+                // do not rotate but needs to override animation for walking
             }
             else
             {

@@ -12,24 +12,7 @@ public class ShieldSO : Item
     private float absorbtionAmount;
 
     [SerializeField]
-    private GameObject equippedPrefab;
-
-    [SerializeField]
     private float physicalDamageAbsorbtion;
-
-    const string shieldName = "Shield";
-
-    public GameObject CreateInstance(Transform rightHand)
-    {
-        GameObject shield = Instantiate(equippedPrefab, rightHand);
-        shield.name = shieldName;
-        return shield;
-    }
-
-    public GameObject GetEquippedPrefab()
-    {
-        return equippedPrefab;
-    }
 
     public float GetPhysicalDamageAbsorbtion()
     {

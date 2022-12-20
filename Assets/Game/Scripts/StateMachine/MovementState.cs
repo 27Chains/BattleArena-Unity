@@ -16,9 +16,7 @@ public class MovementState : State
 
     public override void Enter()
     {
-        Debug.Log("Enter Movement State");
         if (!character.IsOwner) return;
-        Debug.Log(character.IsOwner);
         character.ServerPlayAnim (moveAnimation);
         character.InputReader.AttackEvent += OnAttack;
         character.InputReader.DodgeEvent += OnDodge;

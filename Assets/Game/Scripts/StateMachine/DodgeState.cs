@@ -14,7 +14,6 @@ public class DodgeState : State
 
     public override void Enter()
     {
-        Debug.Log("Enter Dodge State");
         if (!character.IsOwner) return;
         character.ServerPlayAnim("Dodge");
     }

@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class BlockHitState : State
 {
     public BlockHitState(StateMachine _stateMachine, Character _character) :

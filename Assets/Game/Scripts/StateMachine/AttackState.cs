@@ -22,7 +22,6 @@ public class AttackState : State
 
     public override void Enter()
     {
-        Debug.Log("Enter Attack State");
         if (!character.IsOwner) return;
         weapon = character.Inventory.Weapon;
         currentAnimation = weapon.AttackAnimations[comboIndex];
@@ -57,11 +56,11 @@ public class AttackState : State
     private void TryComboAttack()
     {
         if (
+            weapon.AttackAnimations.Length > comboIndex + 1 &&
             timePassed > weapon.ComboAttackTime[comboIndex] &&
             timePassed <
             weapon.ComboAttackTime[comboIndex] +
-            weapon.ComboAttackWindow[comboIndex] &&
-            weapon.AttackAnimations.Length > comboIndex + 1
+            weapon.ComboAttackWindow[comboIndex]
         )
         {
             comboIndex++;

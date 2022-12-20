@@ -10,19 +10,16 @@ using UnityEngine;
 public class WeaponSO : Item
 {
     [SerializeField]
-    private float weaponDamage;
+    private float minDamage;
 
     [SerializeField]
-    private float weaponRange;
+    private float maxDamage;
 
     [SerializeField]
     private float knockbackForce;
 
     [SerializeField]
     private float WeaponForce;
-
-    [SerializeField]
-    private GameObject equippedPrefab;
 
     [SerializeField]
     public string[] AttackAnimations;
@@ -33,28 +30,9 @@ public class WeaponSO : Item
     [SerializeField]
     public float[] ComboAttackWindow;
 
-    const string weaponName = "Weapon";
-
-    public GameObject CreateInstance(Transform rightHand)
-    {
-        GameObject weapon = Instantiate(equippedPrefab, rightHand);
-        weapon.name = weaponName;
-        return weapon;
-    }
-
     public float GetDamage()
     {
-        return weaponDamage;
-    }
-
-    public GameObject GetEquippedPrefab()
-    {
-        return equippedPrefab;
-    }
-
-    public float GetRange()
-    {
-        return weaponRange;
+        return Mathf.RoundToInt(Random.Range(minDamage, maxDamage));
     }
 
     public float GetWeaponForce()

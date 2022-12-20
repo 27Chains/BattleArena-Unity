@@ -10,15 +10,22 @@ public class DamageCollider : NetworkBehaviour
     [SerializeField]
     private float weaponLength = 1.5f;
 
-    [SerializeField]
-    private GameObject raycastOrigin;
+    private bool blocked;
 
     [SerializeField]
-    private Fighter fighter;
+    private GameObject raycastOrigin;
 
     private List<Collider> alreadyCollidedWith = new List<Collider>();
 
     public bool isEnabled;
+
+    private CharacterInventory inventory;
+
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        inventory = GetComponentInParent<CharacterInventory>();
+    }
 
     private void Update()
     {
@@ -41,13 +48,27 @@ public class DamageCollider : NetworkBehaviour
                 alreadyCollidedWith.Add(hit.collider);
                 if (hit.collider.CompareTag("Player"))
                 {
-                    float currentWeaponDamage =
-                        fighter.CurrentWeapon.GetDamage();
+                    float currentWeaponDamage = inventory.Weapon.GetDamage();
+
+                    Character enemy = hit.collider.GetComponent<Character>();
+                    bool enemyBlocking =
+                        enemy.BlockingCollider.blockingCollider.enabled;
+
+                    if (enemyBlocking)
+                    {
+                        currentWeaponDamage =
+                            Mathf
+                                .RoundToInt(currentWeaponDamage *
+                                ((ShieldSO) enemy.Inventory.SupportItem)
+                                    .GetPhysicalDamageAbsorbtion() /
+                                100);
+                    }
+
                     hit
                         .collider
                         .GetComponent<Health>()
                         .TakeDamage(currentWeaponDamage,
-                        fighter.transform.position);
+                        myCollider.transform.position);
                 }
             }
         }

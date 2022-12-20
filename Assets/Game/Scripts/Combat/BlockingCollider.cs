@@ -5,9 +5,7 @@ using UnityEngine;
 
 public class BlockingCollider : NetworkBehaviour
 {
-    BoxCollider blockingCollider;
-
-    public bool IsBlocking => blockingCollider.enabled;
+    public BoxCollider blockingCollider;
 
     private void Awake()
     {

@@ -11,13 +11,22 @@ public class BlockState : State
 
     public override void Enter()
     {
+        if (character.IsServer)
+        {
+            character.BlockingCollider.EnableCollider();
+        }
         if (!character.IsOwner) return;
+
         character.ServerPlayAnim("Block");
     }
 
     public override void Exit()
     {
         character.ServerPlayAnim("BlockDefault");
+        if (character.IsServer)
+        {
+            character.BlockingCollider.DisableCollider();
+        }
     }
 
     public override void HandleInput()
