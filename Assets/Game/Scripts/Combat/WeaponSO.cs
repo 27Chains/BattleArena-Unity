@@ -19,6 +19,9 @@ public class WeaponSO : Item
     private float knockbackForce;
 
     [SerializeField]
+    private float WeaponForce;
+
+    [SerializeField]
     private GameObject equippedPrefab;
 
     [SerializeField]
@@ -52,6 +55,11 @@ public class WeaponSO : Item
     public float GetRange()
     {
         return weaponRange;
+    }
+
+    public float GetWeaponForce()
+    {
+        return WeaponForce;
     }
 
     public float GetKnockbackForce()

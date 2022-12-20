@@ -27,7 +27,8 @@ public enum PlayerState
     Dodge,
     Block,
     Death,
-    Impact
+    Impact,
+    BlockHit
 }
 
 public class Character : NetworkBehaviour
@@ -76,7 +77,9 @@ public class Character : NetworkBehaviour
 
     public MoveData MovementData;
 
-    public State[] states = new State[6];
+    public Vector3 HitData;
+
+    public State[] states = new State[7];
 
     public State GetState(PlayerState state)
     {
@@ -100,6 +103,8 @@ public class Character : NetworkBehaviour
         states[(int) PlayerState.Block] = new BlockState(stateMachine, this);
         states[(int) PlayerState.Death] = new DeadState(stateMachine, this);
         states[(int) PlayerState.Impact] = new ImpactState(stateMachine, this);
+        states[(int) PlayerState.BlockHit] =
+            new BlockHitState(stateMachine, this);
     }
 
     public override void OnStartClient()
@@ -117,9 +122,15 @@ public class Character : NetworkBehaviour
 
     private void HandleDamage(float damage, Vector3 attackerPosition)
     {
-        // ServerRotate(Quaternion
-        //     .LookRotation(attackerPosition - transform.position));
-        stateMachine.ChangeState(PlayerState.Impact);
+        HitData = attackerPosition;
+        if (InputReader.IsBlocking)
+        {
+            stateMachine.ChangeState(PlayerState.BlockHit);
+        }
+        else
+        {
+            stateMachine.ChangeState(PlayerState.Impact);
+        }
     }
 
     private void HandleDeath()
@@ -190,7 +201,16 @@ public class Character : NetworkBehaviour
                 speedDampTime,
                 deltaTime);
 
-            transform.rotation = Quaternion.LookRotation(moveData.Movement);
+            if (stateMachine.currentState == states[(int) PlayerState.Impact])
+            {
+                // rotate the other way
+                transform.rotation =
+                    Quaternion.LookRotation(-moveData.Movement);
+            }
+            else
+            {
+                transform.rotation = Quaternion.LookRotation(moveData.Movement);
+            }
         }
         else
         {
