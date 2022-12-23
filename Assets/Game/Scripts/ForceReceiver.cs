@@ -54,6 +54,7 @@ public class ForceReceiver : MonoBehaviour
         if (impact.magnitude < 0.01f)
         {
             impact = Vector3.zero;
+            return;
         }
 
         character.MovementData.Movement = impact;

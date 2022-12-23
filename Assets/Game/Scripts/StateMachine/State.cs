@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public abstract class State
 {
@@ -47,5 +48,20 @@ public abstract class State
         {
             return 0f;
         }
+    }
+
+    public Vector3 GetMousePositionInWorld()
+    {
+        LayerMask layerMask = LayerMask.GetMask("Ground");
+
+        Ray ray =
+            Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000, layerMask))
+        {
+            return hit.point;
+        }
+
+        return Vector3.zero;
     }
 }

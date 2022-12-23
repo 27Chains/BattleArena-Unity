@@ -30,10 +30,8 @@ public class CharacterInventory : NetworkBehaviour
         base.OnStartClient();
         if (!IsOwner) return;
 
-        // string walletAddress = "0x0000000000000000000000000000000000000000";
-        // ServerInitialize (walletAddress);
-        Weapon = Weapons[0];
-        SupportItem = SupportItems[0];
+        string walletAddress = "0x0000000000000000000000000000000000000000";
+        ServerInitialize (walletAddress);
     }
 
     [ServerRpc]

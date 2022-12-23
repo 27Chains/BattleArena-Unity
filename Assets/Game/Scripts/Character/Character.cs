@@ -24,6 +24,7 @@ public struct ReconcileData
 public enum PlayerState
 {
     Movement,
+    Running,
     Attack,
     Dodge,
     Block,
@@ -85,7 +86,7 @@ public class Character : NetworkBehaviour
 
     public Vector3 HitData;
 
-    public State[] states = new State[7];
+    public State[] states = new State[8];
 
     public int MovementSpeedAnimHash = Animator.StringToHash("MovementSpeed");
 
@@ -114,6 +115,8 @@ public class Character : NetworkBehaviour
 
         states[(int) PlayerState.Movement] =
             new MovementState(stateMachine, this);
+        states[(int) PlayerState.Running] =
+            new RunningState(stateMachine, this);
         states[(int) PlayerState.Attack] = new AttackState(stateMachine, this);
         states[(int) PlayerState.Dodge] = new DodgeState(stateMachine, this);
         states[(int) PlayerState.Block] = new BlockState(stateMachine, this);
@@ -197,12 +200,6 @@ public class Character : NetworkBehaviour
         }
     }
 
-    [ServerRpc(RunLocally = true)]
-    public void ServerSetBool(string boolName, bool value)
-    {
-        Animator.SetBool (boolName, value);
-    }
-
     [ObserversRpc(IncludeOwner = false)]
     public void ObserversPlayAnim(int animName)
     {
@@ -213,60 +210,23 @@ public class Character : NetworkBehaviour
     private void Move(MoveData moveData, bool asServer, bool replaying = false)
     {
         float deltaTime = (float) base.TimeManager.TickDelta;
-        if (stateMachine.currentState == states[(int) PlayerState.Block])
-        {
-            float horizontalMovement =
-                Vector3.Dot(transform.right, moveData.Movement);
-            float verticalMovement =
-                Vector3.Dot(transform.forward, moveData.Movement);
-            Animator
-                .SetFloat(HorizontalMovementAnimHash,
-                horizontalMovement,
-                0.1f,
-                deltaTime);
-            Animator
-                .SetFloat(VerticalMovementAnimHash,
-                verticalMovement,
-                0.1f,
-                deltaTime);
+        float horizontalMovement =
+            Vector3.Dot(transform.right, moveData.Movement);
+        float verticalMovement =
+            Vector3.Dot(transform.forward, moveData.Movement);
+        Animator
+            .SetFloat(HorizontalMovementAnimHash,
+            horizontalMovement,
+            0.1f,
+            deltaTime);
+        Animator
+            .SetFloat(VerticalMovementAnimHash,
+            verticalMovement,
+            0.1f,
+            deltaTime);
 
-            CharacterController
-                .Move((moveData.Movement * blockingMoveSpeed) * deltaTime);
-            return;
-        }
-
-        if (moveData.Movement != Vector3.zero)
-        {
-            float movementSpeed = moveData.IsRunning ? 1f : 0.5f;
-            Animator.SetFloat (
-                MovementSpeedAnimHash,
-                movementSpeed,
-                speedDampTime,
-                deltaTime
-            );
-
-            if (stateMachine.currentState == states[(int) PlayerState.Impact])
-            {
-                transform.rotation =
-                    Quaternion.LookRotation(-moveData.Movement);
-            }
-            else
-            {
-                transform.rotation = Quaternion.LookRotation(moveData.Movement);
-            }
-        }
-        else
-        {
-            Animator
-                .SetFloat(MovementSpeedAnimHash, 0f, speedDampTime, deltaTime);
-        }
-
-        if (Animator.GetFloat(MovementSpeedAnimHash) < 0.01f)
-        {
-            Animator.SetFloat(MovementSpeedAnimHash, 0f);
-        }
-
-        CharacterController.Move(moveData.Movement * deltaTime);
+        transform.rotation = moveData.Rotation;
+        CharacterController.Move((moveData.Movement) * deltaTime);
     }
 
     [Reconcile]

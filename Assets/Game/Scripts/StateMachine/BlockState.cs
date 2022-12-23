@@ -16,7 +16,6 @@ public class BlockState : State
             character.BlockingCollider.EnableCollider();
         }
         if (!character.IsOwner) return;
-        character.ServerSetBool("Blocking", true);
         character.ServerPlayAnim("Block");
     }
 
@@ -27,9 +26,7 @@ public class BlockState : State
             character.BlockingCollider.DisableCollider();
         }
         if (!character.IsOwner) return;
-
         character.ServerPlayAnim("BlockDefault");
-        character.ServerSetBool("Blocking", false);
     }
 
     public override void HandleInput()
@@ -40,22 +37,36 @@ public class BlockState : State
         movement.x = character.InputReader.MovementValue.x;
         movement.y = 0;
         movement.z = character.InputReader.MovementValue.y;
+        MoveData moveData = default;
+        Vector3 mousePosition = GetMousePositionInWorld();
+        Vector3 direction =
+            (mousePosition - character.transform.position).normalized;
+        Quaternion lookRotation =
+            Quaternion
+                .Slerp(character.transform.rotation,
+                Quaternion.LookRotation(direction),
+                0.35f);
+        moveData.Rotation = lookRotation;
+
         if (movement != Vector3.zero)
         {
-            MoveData moveData = default;
-            moveData.Movement = movement.normalized;
+            moveData.Movement = movement.normalized * character.walkSpeed;
             character.MovementData = moveData;
         }
         else
         {
-            character.MovementData.Movement = Vector3.zero;
+            character.MovementData = moveData;
         }
     }
 
     public override void LogicUpdate()
     {
         if (!character.IsOwner) return;
-        if (!character.InputReader.IsBlocking)
+        if (character.InputReader.IsBlocking)
+        {
+            stateMachine.ChangeState(PlayerState.Block);
+        }
+        else
         {
             stateMachine.ChangeState(PlayerState.Movement);
         }

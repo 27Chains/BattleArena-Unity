@@ -24,6 +24,7 @@ public class MovementState : State
 
     private void OnDodge()
     {
+        if (character.MovementData.Movement == Vector3.zero) return;
         stateMachine.ChangeState(PlayerState.Dodge);
     }
 
@@ -34,7 +35,6 @@ public class MovementState : State
 
     public override void Exit()
     {
-        character.MovementData.Movement = Vector3.zero;
         character.InputReader.AttackEvent -= OnAttack;
         character.InputReader.DodgeEvent -= OnDodge;
     }
@@ -42,35 +42,52 @@ public class MovementState : State
     public override void HandleInput()
     {
         base.HandleInput();
+        if (!character.IsOwner) return;
         Vector3 movement = new Vector3();
         movement.x = character.InputReader.MovementValue.x;
         movement.y = 0;
         movement.z = character.InputReader.MovementValue.y;
+        MoveData moveData = default;
+        Vector3 mousePosition = GetMousePositionInWorld();
+        Vector3 direction =
+            (mousePosition - character.transform.position).normalized;
+
+        if (direction != Vector3.zero)
+        {
+            Quaternion lookRotation =
+                Quaternion
+                    .Slerp(character.transform.rotation,
+                    Quaternion.LookRotation(direction),
+                    0.35f);
+            moveData.Rotation = lookRotation;
+        }
+
         if (movement != Vector3.zero)
         {
-            MoveData moveData = default;
-            float MovementSpeed =
-                character.InputReader.IsRunning
-                    ? character.runningSpeed
-                    : character.walkSpeed;
-
-            moveData.Movement = movement.normalized * MovementSpeed;
-            moveData.IsRunning = character.InputReader.IsRunning;
-
+            moveData.Movement = movement.normalized * character.walkSpeed;
             character.MovementData = moveData;
         }
         else
         {
-            character.MovementData.Movement = Vector3.zero;
+            character.MovementData = moveData;
         }
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        if (!character.IsOwner) return;
+
         if (character.InputReader.IsBlocking)
         {
             stateMachine.ChangeState(PlayerState.Block);
+        }
+        if (
+            character.MovementData.Movement != Vector3.zero &&
+            character.InputReader.IsRunning
+        )
+        {
+            stateMachine.ChangeState(PlayerState.Running);
         }
     }
 }

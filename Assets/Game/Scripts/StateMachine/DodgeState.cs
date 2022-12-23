@@ -16,15 +16,20 @@ public class DodgeState : State
     {
         if (!character.IsOwner) return;
         character.ServerPlayAnim("Dodge");
+        Dodge();
     }
 
     private void Dodge()
     {
+        Vector3 movement = new Vector3();
+        movement.x = character.InputReader.MovementValue.x;
+        movement.y = 0;
+        movement.z = character.InputReader.MovementValue.y;
+        character.MovementData.Rotation = Quaternion.LookRotation(movement);
+
         character
             .ForceReceiver
-            .AddForce(character.transform.forward * character.dodgeSpeed,
-            ForceType.Linear,
-            0.65f);
+            .AddForce(movement * character.dodgeSpeed, ForceType.Linear, 0.65f);
     }
 
     public override void Exit()
@@ -34,11 +39,7 @@ public class DodgeState : State
 
     public override void LogicUpdate()
     {
-        if (!alreadyAppliedForce)
-        {
-            Dodge();
-            alreadyAppliedForce = true;
-        }
+        if (!character.IsOwner) return;
         if (GetNormalizedTime(character.Animator, 0, "Dodge") > 0.75f)
         {
             stateMachine.ChangeState(PlayerState.Movement);
