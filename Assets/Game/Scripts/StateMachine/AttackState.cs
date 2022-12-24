@@ -79,7 +79,6 @@ public class AttackState : State
 
     private void TryComboAttack()
     {
-        Debug.Log("TryComboAttack");
         if (
             weapon.AttackAnimations.Length > comboIndex + 1 &&
             timePassed > weapon.ComboAttackTime[comboIndex] &&

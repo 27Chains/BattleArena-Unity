@@ -209,6 +209,7 @@ public class Character : NetworkBehaviour
     [Replicate]
     private void Move(MoveData moveData, bool asServer, bool replaying = false)
     {
+        if (Health.isDead) return;
         float deltaTime = (float) base.TimeManager.TickDelta;
         float horizontalMovement =
             Vector3.Dot(transform.right, moveData.Movement);
@@ -224,9 +225,27 @@ public class Character : NetworkBehaviour
             verticalMovement,
             0.1f,
             deltaTime);
+        if (moveData.Movement == Vector3.zero)
+        {
+            float horizontalValue =
+                Animator.GetFloat(HorizontalMovementAnimHash);
+            float verticalValue = Animator.GetFloat(VerticalMovementAnimHash);
+
+            if (horizontalValue > -0.01f && horizontalValue < 0.001f)
+            {
+                Animator.SetFloat(HorizontalMovementAnimHash, 0);
+            }
+            if (verticalValue > -0.01f && verticalValue < 0.001)
+            {
+                Animator.SetFloat(VerticalMovementAnimHash, 0);
+            }
+        }
+        else
+        {
+            CharacterController.Move((moveData.Movement) * deltaTime);
+        }
 
         transform.rotation = moveData.Rotation;
-        CharacterController.Move((moveData.Movement) * deltaTime);
     }
 
     [Reconcile]

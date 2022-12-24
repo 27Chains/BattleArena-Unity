@@ -63,7 +63,6 @@ public class DamageCollider : NetworkBehaviour
                                     .GetPhysicalDamageAbsorbtion() /
                                 100);
                     }
-
                     hit
                         .collider
                         .GetComponent<Health>()
