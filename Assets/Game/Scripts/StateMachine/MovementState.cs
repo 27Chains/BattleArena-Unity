@@ -49,6 +49,7 @@ public class MovementState : State
         movement.z = character.InputReader.MovementValue.y;
         MoveData moveData = default;
         Vector3 mousePosition = GetMousePositionInWorld();
+        mousePosition.y = character.transform.position.y;
         Vector3 direction =
             (mousePosition - character.transform.position).normalized;
 

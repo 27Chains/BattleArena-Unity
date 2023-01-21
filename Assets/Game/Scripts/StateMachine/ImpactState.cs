@@ -30,9 +30,6 @@ public class ImpactState : State
             .AddForce(direction *
             character.Inventory.Weapon.GetKnockbackForce(),
             ForceType.Smooth);
-
-        Quaternion rotation = Quaternion.LookRotation(direction);
-        character.ServerRotate (rotation);
     }
 
     public override void LogicUpdate()

@@ -24,7 +24,7 @@ public class BlockHitState : State
         base.LogicUpdate();
         if (!character.IsOwner) return;
 
-        if (GetNormalizedTime(character.Animator, 0, "BlockHit") >= 0.9f)
+        if (GetNormalizedTime(character.Animator, 1, "BlockHit") >= 0.9f)
         {
             if (character.InputReader.IsBlocking)
             {
